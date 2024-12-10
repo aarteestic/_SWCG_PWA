@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadow Wizard Coding Gang Website</title>
+  <link rel="stylesheet" href = "{{ url_for('static', filename='css/stylesheet.css') }}">
+
+  
+</head>
+<body>
+  <nav>
+    <button onclick="navigateTo(1)">Page 1</button>
+    <button onclick="navigateTo(2)">Page 2</button>
+    <button onclick="navigateTo(3)">Page 3</button>
+    <button onclick="navigateTo(4)">Page 4</button>
+    <button onclick="navigateTo(5)">Page 5</button>
+  </nav>
+
+  <div id="content" class="container">
+    Placeholder text
+  </div>
+  <script>
+    function navigateTo(page) {
+      movieNames = new Array()
+      movieNames.push('{{name[0]}}', '{{name[1]}}', '{{name[2]}}') // wayyy too sketh method 
+
+        
+        const content = document.getElementById('content');
+        content.innerHTML = `This is ${movieNames[page - 1]}, on page ${page}`;
+    }
+  </script>
+
+</body>
+</html>
+  
