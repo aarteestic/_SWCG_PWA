@@ -17,7 +17,7 @@ def index():
 
 @app.route("/movies")
 def movies():
-    return render_template("movies.html")
+    return render_template("movies.html", movie=res)
 
 @app.route("/register", methods = ['GET', 'POST'])
 def register():
