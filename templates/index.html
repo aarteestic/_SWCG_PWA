@@ -30,10 +30,15 @@
     <button class="carousel-btn right" onclick="scrollCarousel('right')">→</button>
   </div>
 
+{% if userInfo != '' %}  
 <p>
-  {{ movie[0][0] }}
+  Hello, {{ userInfo }}!
 </p>
-
+{% else %}
+<p>
+  Please log or sign in.
+</p>
+{% endif %}
 
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   <script>

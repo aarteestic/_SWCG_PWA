@@ -37,9 +37,10 @@
 
 <!--https://stackoverflow.com/questions/15321431/how-to-pass-a-list-from-python-by-jinja2-to-javascript/53952147#53952147-->
 <!--a beautiful stackoverflow answer showcasing the power of jinja-->
-{% for tile in movie %}
-<div class="movie">Hello! This is banana
-  <p>{{ title[0] }}</p>  <!--proof of concept for dynamically generated movie stuff-->
+{% for ti in movie %}
+<div class="movie">
+  <p>Overview for <br> {{ ti[0] }}</p>  <!--proof of concept for dynamically generated movie stuff-->
+  <br>
 </div>
 {% endfor %}
 
