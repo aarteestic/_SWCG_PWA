@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadow Wizard Coding Gang Website</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
+</head>
+<body>
+  <div class="background-layer"></div>
+  <nav>
+    <div class="logo-container">
+      <a href="/"> <!--calls the index page or 'default' URL-->
+        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo">
+      </a>
+    </div>
+    <button onclick="navigateTo(1)">Home</button>
+    <button onclick="navigateTo(2)">Movies</button>
+    <button onclick="navigateTo(3)">Games</button>
+    <button onclick="navigateTo(4)">Battleground</button>
+    <button onclick="navigateTo(5)">Contact Us</button>
+    <button class="invisible" disabled></button>
+    <button onclick="navigateTo(6)">Login</button> 
+  </nav>
+  
+
+  <img src="{{url_for('static', filename='ASSETS/NAV_IMG.png')}}" class="logo">
+  <div class="formLogin">
+    <form action="{{ url_for("login_1")}}" method="post">
+      <label id='log' for="name">Username:</label>
+      <input type="text" id="name" name="name" placeholder="name">
+      <br>
+      <br>
+      <br>
+      <label id='log' for="pword">Password:</label>
+      <input type="text" id="pword" name="pword" placeholder="password">
+      <br>
+      <input type="file" name="img">
+      <br>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <style>
+    .formLogin {
+      height: 90%;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 18px;
+      color: #e1e1e1;
+      text-align: center;
+    }
+    .logo {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 30%;
+    }
+
+  </style>
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

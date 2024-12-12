@@ -3,6 +3,10 @@ import sqlite3
 con = sqlite3.connect('SWCG.db')
 
 cur = con.cursor()
+
+
+cur.execute(''' CREATE TABLE movie(title, year, rating) ''')
+
 cur.execute('''
         INSERT INTO movie VALUES
             ('Monty Python and the Holy Grail', 1975, 8.2),

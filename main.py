@@ -4,31 +4,20 @@ from markupsafe import escape
 from waitress import serve
 
 con = sqlite3.connect('SWCG.db')
-
 cur = con.cursor()
-
 res = cur.execute('SELECT title FROM movie').fetchall()
-
-print(res)
-
+# currently redundant database code
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html", name=res) #looks for the name of a file from the 'templates' file
+    return render_template("index.html", movie=res) #looks for the name of a file from the 'templates' file
 
 # code inputs
 
-@app.route('/gfg', methods =["GET", "POST"])
-def gfg():
-    if request.method == "POST":
-       # getting input with name = fname in HTML form
-       first_name = request.form.get("fname")
-       print(first_name)
-       # getting input with name = lname in HTML form 
-       last_name = request.form.get("lname") 
-       return "Your name is "+ first_name + last_name
-    return render_template("input.html")
+@app.route("/movies")
+def movies():
+    return render_template("movies.html")
 
 @app.route("/register", methods = ['GET', 'POST'])
 def register():
@@ -41,34 +30,38 @@ def register():
         print(name)
         cur.execute("INSERT INTO user (name, password) VALUES(?, ?)", (name, password))
         con.commit()
-        print(cur.execute(''' SELECT name FROM user ''').fetchall())
+        cur.close()
         return "Your account, with name " + name + " has been registered!"
     return render_template("register.html")
 
-@app.route("/login", methods = ['GET', 'POST'])
-def login():
-    if request.method == "POST":
+@app.route('/login_1', methods = ['GET', 'POST']) #production login
+def login_1():
+        if request.method == "POST": #if INFORMATION is sent, this code runs
 
-        name = request.form.get('name')
-        password = request.form.get('pword')
-
-        con = sqlite3.connect('SWCG.db')
-        cur = con.cursor()
-
-        res = cur.execute("SELECT name, password FROM user").fetchall()
+            name = request.form.get('name')
+            password = request.form.get('pword')
 
 
-        print(res)
+            con = sqlite3.connect('SWCG.db')
+            cur = con.cursor()
 
-        for i in range(0, len(res)):
-            print(res[i][0])
-            checkName = res[i][0]
-            checkPassword = res[i][1]
-            if checkName == name and checkPassword == password:
+            res = cur.execute("SELECT name, password FROM user").fetchall()
+            cur.close()
+            
+            print(res)
+            exists = False
+            for i in range(0, len(res)):
+                print(res[i][0])
+                checkName = res[i][0]
+                checkPassword = res[i][1]
+                if checkName == name and checkPassword == password: #if name and password runs, then account exists
+                    exists = True
+            if exists == True:
                 return f"Account exists, with name {name}"
             else:
-                return "YOU DOG"
-    return render_template('login.html')
+                return "You DOG."
+        return render_template('login1.html')
+
 
 
 
