@@ -5,13 +5,13 @@ https://stackoverflow.com/questions/62192623/how-can-i-pass-jinja-variable-to-th
 
 spice up the home page with movies + their ratings + images (from website), etc.
  
-IMP1: add image column for movies database
+IMP3: add image column for movies database
 
-IMP2: add individual pages (with reviews) for each movie
+IMP2: add individual review pages for each
  
 'Hello, user!' stuff on each page
 
-IMP3: user authentication/make if statements for each page:
+IMP1: user authentication/make if statements for each page:
 e.g. if login == true:
     do login, access to reviews, etc.
     else:

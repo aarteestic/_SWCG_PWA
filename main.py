@@ -22,7 +22,7 @@ def index():
 def movies():
     return render_template("movies.html", movie=res)
 
-@app.route("/register", methods = ['GET', 'POST'])
+@app.route("/register", methods = ['GET', 'POST']) #for registering an account
 def register():
     if request.method == "POST":
 
@@ -71,7 +71,7 @@ res2 = cur.execute(''' SELECT rowid FROM movie''').fetchall()
 
 print(res2[1])
 
-@app.route((f'/<int:movieID>'))
+@app.route((f'/movies/<int:movieID>')) #Dynamically created movie pages for each movie in the SWCG database.
 def review(movieID):
     for i in range(0, len(res2)):
         if movieID == res2[i][0]:
