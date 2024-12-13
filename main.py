@@ -67,7 +67,17 @@ def login_1():
                 return "You DOG."
         return render_template('login1.html')
 
+res2 = cur.execute(''' SELECT rowid FROM movie''').fetchall()
 
+print(res2[1])
+
+@app.route((f'/<int:movieID>'))
+def review(movieID):
+    for i in range(0, len(res2)):
+        if movieID == res2[i][0]:
+            return render_template('review.html', movieID=movieID)
+        else:
+            return 'Error! Movie not found.' #need error page.
 
 
 
