@@ -14,7 +14,7 @@ userInfo = ''
 
 @app.route("/")
 def index():
-    return render_template("index.html", movie=res, name=userInfo) #looks for the name of a file from the 'templates' file
+    return render_template("index.html", movie=res) #looks for the name of a file from the 'templates' file
 
 # code inputs
 
@@ -60,7 +60,7 @@ def login_1():
                 if checkName == name and checkPassword == password: #if name and password runs, then account exists
                     exists = True
             if exists == True:
-                userInfo = name # sets a name
+                userInfo = name # sets a name, currently nonfunctional
                 return f"Account exists, with name {name}"
                 
             else:
