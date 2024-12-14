@@ -18,7 +18,9 @@
     font-family: inherit;
     font-weight: 800;
 
+    height:450px;
     overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   #myInput {
@@ -35,6 +37,7 @@
     margin-bottom: 12px; /* Add some space below the input */
 
   }
+
   .recordValue {
     float:left;
     height: 100px;
@@ -42,10 +45,19 @@
     border: 1px solid black;
   }
 
+  #recordImage {
+    border:1px solid black;
+    height:300px;
+    width: 200px;
+    float:left;
+  }
 
   #record {
     border:1px solid black;
-    height:100px
+    height:300px;
+    display:grid;
+    grid-template-columns: 200px auto auto;
+    grid-template-rows: 100px 100px 100px;
   }
 </style>
 
@@ -88,13 +100,12 @@
 
   <div id="scrollableMovieTable">
 {% for ti in movie %} <!--add images in the next update-->
-  <div height=200px id="record" class="record"> 
-    <div class="recordValue"><img src={{ ti[4] }} width=60px height=90px></div> <!--thumbnail image-->
-    <div style="width: 50%;"class="recordValue">{{ ti[0] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
-    <div style="width: 20%;"class="recordValue">{{ ti[2] }} out of 10</div>
-    <div style="width: 10%; float:right;" class="recordValue">{{ ti[3] }}</div> <!--genre-->
+  <div id="record" class="record"> 
+    <div style="grid-column:1/span 1;grid-row:1/span 3" id="recordImage"><img src={{ ti[4] }} width=200px height=300px></div> <!--thumbnail image-->
+    <div style="grid-column:2/span 1;grid-row:1/span 1" class="recordValue">{{ ti[0] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
+    <div style="grid-column:2/span 1;grid-row:2/span 1"class="recordValue">{{ ti[2] }} out of 10</div>
+    <div style="grid-column:2/span 1;grid-row:3/span 1" class="recordValue">{{ ti[3] }}</div> <!--genre-->
   </div>
-  <br>
 {% endfor %}
   </div>
 
@@ -104,6 +115,8 @@
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   <script>
     //add table stuff soon...
+
+
   function search() { //from W3Schools https://www.w3schools.com/howto/howto_js_filter_table.asp
     // Declare variables
     var input, filter, table, tr, td, i, txtValue;
@@ -114,7 +127,7 @@
 
     // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("div")[2];
+      td = tr[i].getElementsByTagName("div")[3];
       if (td) {
         txtValue = td.textContent || td.innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {

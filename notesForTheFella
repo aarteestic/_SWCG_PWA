@@ -1,18 +1,18 @@
-the to do for friday:
+TO DO:
 
 https://stackoverflow.com/questions/62192623/how-can-i-pass-jinja-variable-to-the-template-file-that-i-have-created-in-flask
 --> on passing variables between pages
 
 spice up the home page with movies + their ratings + images (from website), etc.
  
-IMP3: add image column for movies database
+add image column for movies database [DONE]
 
-IMP2: add individual review pages for each
+IMP1: add individual review pages for each
  
 'Hello, user!' stuff on each page
 
-IMP1: user authentication/make if statements for each page:
-e.g. if login == true:
+IMP2: user authentication/make if statements for each page:
+e.g. if login == true: (BTW THIS WORKS)
     do login, access to reviews, etc.
     else:
     regular pages
