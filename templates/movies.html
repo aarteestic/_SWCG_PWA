@@ -106,12 +106,15 @@
 {% for ti in movie %} <!--add images in the next update-->
   <div id="record" class="record">  <!--https://www.w3schools.com/css/css_grid_item.asp see this website for details on 'grid system'-->
     <div style="grid-column:1/span 1;grid-row:1/span 3" id="recordImage"><img src={{ ti[4] }} width=200px height=300px></div> <!--thumbnail image-->
-    <div style="grid-column:2/span 1;grid-row:1/span 1;width:500px;" class="recordValue">{{ ti[0] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
+    <div style="grid-column:2/span 1;grid-row:1/span 1;width:500px;" class="recordValue">NAME: {{ ti[0] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
     <div style="grid-column:3/span 1;grid-row:1/span 1;width:200px;"class="recordValue">{{ ti[2] }} out of 10</div>
-    <div style="grid-column:2/span 1;grid-row:3/span 1;width:50%;" class="recordValue">{{ ti[3] }}</div> <!--genre-->
+    <div style="grid-column:2/span 1;grid-row:3/span 1;width:50%;" class="recordValue">GENRE: {{ ti[3] }}</div> <!--genre-->
   
-    <div style="grid-column:3/span 1;grid-row:2/span 2;width:50%;"class="recordValue"> <a href="/movies/{{movie.index(ti)}}">To Movie Page</a> </div>
+    <div style="grid-column:3/span 1;grid-row:2/span 1;width:50%;"class="recordValue"> <a href="/movies/{{movie.index(ti)}}">To Movie Page</a> </div>
+    
+    <div style="grid-column:2/span 1;grid-row:2/span 1;width:50%;"class="recordValue"> DIRECTOR/S: {{ ti[5] }} </div> <!--director(s)-->
   </div>
+  <br>
 {% endfor %}
   </div>
 
