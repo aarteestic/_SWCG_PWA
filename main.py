@@ -10,7 +10,7 @@ res = cur.execute('SELECT * FROM movie').fetchall()
 # res is a list of all movies and their data
 # res[i] returns the list of one movie, containing its name, year of publication, rating out of 10, and genre
 # respectively
-
+print(res)
 # rowid is obtained another way (see res2) 
 
 # currently redundant database code
