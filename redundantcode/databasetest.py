@@ -5,13 +5,15 @@ con = sqlite3.connect('SWCG.db')
 cur = con.cursor()
 
 
-cur.execute(''' CREATE TABLE movie(title, year, rating) ''')
+cur.execute(''' CREATE TABLE movie(title, year, rating, genre) ''') #single genre functionality currently
+# may add genre as list later, but for now it will accept string of available genres:
+# SCI-FI, ACTION, COMEDY, ROMANCE, HORROR
 
 cur.execute('''
         INSERT INTO movie VALUES
-            ('Monty Python and the Holy Grail', 1975, 8.2),
-            ('And Now for Something Completely Different', 1971, 7.5),
-            ('Super Secret Spicy Movie', 2035, 1.9)
+            ('Monty Python and the Holy Grail', 1975, 8.2, 'COMEDY'),
+            ('And Now for Something Completely Different', 1971, 7.5, 'ROMANCE'),
+            ('Super Secret Spicy Movie', 2035, 1.9, 'HORROR')
         ''')
 
 con.commit()

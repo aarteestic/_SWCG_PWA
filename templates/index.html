@@ -30,7 +30,7 @@
     <button class="carousel-btn right" onclick="scrollCarousel('right')">→</button>
   </div>
 
-{% if res == '' %}  
+{% if res == '' %}  <!--some login testing code for me to fiddle with, this can be deleted-->
 <p>
   Hello, John!
 </p>
@@ -41,7 +41,7 @@
 {% endif %}
 
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-  <script>
+  <script> // Carousel code placed within the index HTML
     let numPosters = 3; // Set this value to control the number of movie posters
     let currentIndex = 0;
 
@@ -56,7 +56,7 @@
       for (let i = 0; i < numPosters; i++) {
         const img = document.createElement('img');
         const movieName = {{movie | tojson}};
-        img.src = `https://via.placeholder.com/150x200?text=${movieName[i]}+${i+1}`;
+        img.src = `https://via.placeholder.com/150x200?text=${movieName[i][0]}+${i+1}`;
         img.alt = `Poster ${i+1}`;
         carousel.appendChild(img);
         console.log('loaded ${i}')

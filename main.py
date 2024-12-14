@@ -5,27 +5,32 @@ from waitress import serve
 
 con = sqlite3.connect('SWCG.db')
 cur = con.cursor()
-res = cur.execute('SELECT title FROM movie').fetchall()
+
+res = cur.execute('SELECT * FROM movie').fetchall()
+# res is a list of all movies and their data
+# res[i] returns the list of one movie, containing its name, year of publication, rating out of 10, and genre
+# respectively
+
+# rowid is obtained another way (see res2) 
+
 # currently redundant database code
 app = Flask(__name__)
 
 
-userInfo = ''
-
-@app.route("/")
+@app.route("/") #To home page
 def index():
     return render_template("index.html", movie=res) #looks for the name of a file from the 'templates' file
 
 # code inputs
 
-@app.route("/movies")
+@app.route("/movies")  #To movies page
 def movies():
     return render_template("movies.html", movie=res)
 
 @app.route("/register", methods = ['GET', 'POST']) #for registering an account
 def register():
     if request.method == "POST":
-
+        #Handles account registration into the SWCG user table
         name = request.form.get('name')
         password = request.form.get('pword')
         con = sqlite3.connect('SWCG.db')
@@ -37,9 +42,9 @@ def register():
         return "Your account, with name " + name + " has been registered!"
     return render_template("register.html")
 
-@app.route('/login_1', methods = ['GET', 'POST']) #production login
+@app.route('/login_1', methods = ['GET', 'POST']) #To login page
 def login_1():
-        if request.method == "POST": #if INFORMATION is sent, this code runs
+        if request.method == "POST": #for logging into an account, once form is sent
 
             name = request.form.get('name')
             password = request.form.get('pword')
@@ -67,12 +72,12 @@ def login_1():
                 return "You DOG."
         return render_template('login1.html')
 
+
+
 res2 = cur.execute(''' SELECT rowid FROM movie''').fetchall()
-
-print(res2[1])
-
-@app.route((f'/movies/<int:movieID>')) #Dynamically created movie pages for each movie in the SWCG database.
-def review(movieID):
+#Dynamically created movie pages for each movie in the SWCG database.
+@app.route((f'/movies/<int:movieID>')) #To each specific movie
+def movie(movieID):
     for i in range(0, len(res2)):
         if movieID == res2[i][0]:
             return render_template('review.html', movieID=movieID)

@@ -7,6 +7,34 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
 </head>
+
+<style>
+  #movieTable {
+    margin-left: auto;
+    margin-right: auto; /*aligns the table in the middle */
+
+    font-size: 18px;
+    color: #e1e1e1;
+    font-family: inherit;
+    font-weight: 800;
+  }
+
+  #myInput {
+
+    margin-left: 5%;
+    margin-right: 5%; /*aligns the table in the middle */
+
+    width: 80%; /* Full-width */
+
+
+    font-size: 10px; /* Increase font-size */
+    padding: 12px 20px 12px 40px; /* Add some padding */
+    border: 1px solid #ddd; /* Add a grey border */
+    margin-bottom: 12px; /* Add some space below the input */
+  }
+</style>
+
+
 <body>
   <div class="background-layer"></div>
   <nav>
@@ -37,15 +65,44 @@
 
 <!--https://stackoverflow.com/questions/15321431/how-to-pass-a-list-from-python-by-jinja2-to-javascript/53952147#53952147-->
 <!--a beautiful stackoverflow answer showcasing the power of jinja-->
-{% for ti in movie %}
-<div class="movie">
-  <p>Overview for <br> {{ ti[0] }}</p>  <!--proof of concept for dynamically generated movie stuff-->
-  <br>
-</div>
+
+
+<input type="text" id="myInput" onkeyup="search()" placeholder="Search for genre.."> <!--Allows for searching of movies-->
+
+<table id="movieTable">
+{% for ti in movie %} <!--add images in the next update-->
+<tr>
+    <td>{{ ti[0] }}</td>  <!--proof of concept for dynamically generated movie stuff-->
+    <td>{{ ti[3] }}</td> <!--genre-->
+</tr>
 {% endfor %}
-
-
+</table>
 
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  <script>
+    //add table stuff soon...
+  function search() { //from W3Schools https://www.w3schools.com/howto/howto_js_filter_table.asp
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("movieTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  </script>
+  
 </body>
 </html>
