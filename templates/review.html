@@ -4,5 +4,6 @@
     </head>
     <a href="/"> to index and suffering</a>
     <p>what's the hooists, {{movieID}}</p> <!--Short sample code, just have placeholder text here and I will handle variables-->
-    <p>This is a dummy review page for {{ movie[movieID][0] }} </p>
+    <p>This is a dummy review page for {{ movie[movieNumber][0] }} </p>
+    <p>The TOP review is: <br><br> by {{ movieReview[movieNumber][2] }}<br><br>{{ movieReview[movieNumber][0] }} <br><br> with rating {{ movieReview[movieNumber][3] }} out of 10</p>
     </html><!--Have space for: movie image, movie title, movie rating, top review, and review button-->

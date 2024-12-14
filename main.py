@@ -6,28 +6,27 @@ from waitress import serve
 con = sqlite3.connect('SWCG.db')
 cur = con.cursor()
 
-res = cur.execute('SELECT * FROM movie').fetchall()
+movieRecord = cur.execute('SELECT * FROM movie').fetchall()
 
-
-res2 = cur.execute(''' SELECT rowid FROM movie''').fetchall()
-# res is a list of all movies and their data
-# res[i] returns the list of one movie, containing its name, year of publication, rating out of 10, and genre
+movieID = cur.execute(''' SELECT id FROM movie ''').fetchall()
+# movieRecord is a list of all movies and their data
+# movieRecord[i] returns the list of one movie, containing its name, year of publication, rating out of 10, and genre
 # respectively
-# rowid is obtained another way (see res2) 
+movieReview = cur.execute('SELECT * FROM reviews').fetchall()
 
-# currently redundant database code
+
 app = Flask(__name__)
 
 
 @app.route("/") #To home page
 def index():
-    return render_template("index.html", movie=res) #looks for the name of a file from the 'templates' file
+    return render_template("index.html", movie=movieRecord) #looks for the name of a file from the 'templates' file
 
 # code inputs
 
 @app.route("/movies")  #To movies page
 def movies():
-    return render_template("movies.html", movie=res, movieID=res2)
+    return render_template("movies.html", movie=movieRecord, movieID=movieID)
 
 @app.route("/register", methods = ['GET', 'POST']) #for registering an account
 def register():
@@ -55,15 +54,15 @@ def login_1():
             con = sqlite3.connect('SWCG.db')
             cur = con.cursor()
 
-            res = cur.execute("SELECT name, password FROM user").fetchall()
+            movieRecord = cur.execute("SELECT name, password FROM user").fetchall()
             cur.close()
             
-            print(res)
+            print(movieRecord)
             exists = False
-            for i in range(0, len(res)):
-                print(res[i][0])
-                checkName = res[i][0]
-                checkPassword = res[i][1]
+            for i in range(0, len(movieRecord)):
+                print(movieRecord[i][0])
+                checkName = movieRecord[i][0]
+                checkPassword = movieRecord[i][1]
                 if checkName == name and checkPassword == password: #if name and password runs, then account exists
                     exists = True
             if exists == True:
@@ -77,12 +76,12 @@ def login_1():
 
 
 #Dynamically creates movie pages for each movie in the SWCG database.
-@app.route((f'/movies/<int:movieID>')) #To each specific movie
-def movie(movieID):
-    for i in range(0, len(res2)): #stops indexing at j-1 because python is dumb!!!
+@app.route((f'/movies/<int:movieNumber>')) #To each specific movie
+def movie(movieNumber): #movieNumber not to be confused with movieID, which is for the SWCG database (;
+    for i in range(0, len(movieID)): #stops indexing at j-1 because python is dumb!!!
         print(i)
-        if movieID == res2[i][0] - 1: #to begin indexing from 0
-            return render_template('review.html', movieID=movieID, movie=res)
+        if movieNumber == movieID[i][0] - 1: #to begin indexing from 0
+            return render_template('review.html', movieNumber=movieNumber, movie=movieRecord, movieReview=movieReview)
         else:
             next
     return 'Error! Movie not found!'

@@ -1,0 +1,30 @@
+import sqlite3
+
+con = sqlite3.connect('SWCG.db')
+
+cur = con.cursor()
+
+
+cur.execute(''' CREATE TABLE reviews(review, movieID, user, rating) ''') #single genre functionality currently
+# may add genre as list later, but for now it will accept string of available genres:
+# SCI-FI, ACTION, COMEDY, ROMANCE, HORROR
+
+cur.execute('''
+        INSERT INTO reviews VALUES
+            ('I laughed so hard my stomach fell out! Monty Python is truly a genius!', 1, 'Wilson', 9),
+            ('Meh. It was lorem ipsum dolor set', 2, 'Wilson', 6),
+            ('Babababababangboo! Bangboo!', 3, 'Wilson', 2 )
+        ''')
+
+con.commit()
+
+
+
+#TABLE movie takes values -- title, year, score.
+
+
+res = cur.execute("SELECT genre FROM movie") #gives tuple of 3 values of movie names
+
+movieTable = cur.execute('''SELECT name FROM sqlite_master WHERE type='table' AND name='movie' ''').fetchone()
+# checks if table exists
+print(res.fetchall())
