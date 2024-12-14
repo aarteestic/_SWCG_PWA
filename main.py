@@ -7,6 +7,9 @@ con = sqlite3.connect('SWCG.db')
 cur = con.cursor()
 
 res = cur.execute('SELECT * FROM movie').fetchall()
+
+
+res2 = cur.execute(''' SELECT rowid FROM movie''').fetchall()
 # res is a list of all movies and their data
 # res[i] returns the list of one movie, containing its name, year of publication, rating out of 10, and genre
 # respectively
@@ -24,7 +27,7 @@ def index():
 
 @app.route("/movies")  #To movies page
 def movies():
-    return render_template("movies.html", movie=res)
+    return render_template("movies.html", movie=res, movieID=res2)
 
 @app.route("/register", methods = ['GET', 'POST']) #for registering an account
 def register():
@@ -73,15 +76,16 @@ def login_1():
 
 
 
-res2 = cur.execute(''' SELECT rowid FROM movie''').fetchall()
-#Dynamically created movie pages for each movie in the SWCG database.
+#Dynamically creates movie pages for each movie in the SWCG database.
 @app.route((f'/movies/<int:movieID>')) #To each specific movie
 def movie(movieID):
-    for i in range(0, len(res2)):
-        if movieID == res2[i][0]:
-            return render_template('review.html', movieID=movieID)
+    for i in range(0, len(res2)): #stops indexing at j-1 because python is dumb!!!
+        print(i)
+        if movieID == res2[i][0] - 1: #to begin indexing from 0
+            return render_template('review.html', movieID=movieID, movie=res)
         else:
-            return 'Error! Movie not found.' #need error page.
+            next
+    return 'Error! Movie not found!'
 
 
 
