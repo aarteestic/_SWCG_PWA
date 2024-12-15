@@ -17,16 +17,16 @@
     </div>
     <button onclick="navigateTo(1)">Home</button>
     <button onclick="navigateTo(2)">Movies</button>
-    <button onclick="navigateTo(3)">Games</button>
-    <button onclick="navigateTo(4)">Battleground</button>
-    <button onclick="navigateTo(5)">Contact Us</button>
     <button class="invisible" disabled></button>
-    <button onclick="navigateTo(6)">Login</button> 
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    <button onclick="navigateTo(6)">Login</button>
   </nav>
   
 
   <img src="{{url_for('static', filename='ASSETS/NAV_IMG.png')}}" class="logo">
-  <div class="formLogin">
+  <div class="formLogin"> <!--login code, try not to touch the form or atleast have the same 'name' of the input-->
     <form action="{{ url_for("login_1")}}" method="post">
       <label id='log' for="name">Username:</label>
       <input type="text" id="name" name="name" placeholder="name">

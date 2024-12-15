@@ -20,6 +20,9 @@
 
     height:450px;
     overflow-y: scroll;
+    scrollbar-color: black white;
+    scroll-snap-align: center;
+    scroll-margin: 10px;
     overflow-x: hidden;
   }
 
@@ -58,9 +61,13 @@
     margin-right: auto; /*aligns the table in the middle */
 
     border:1px solid black;
-    height:300px;
+    background-color:#111;
+    border-radius: 25px;
+
+    height:30%px;
+    width: 80%;
     display:grid;
-    grid-template-columns: 200px 500px auto;
+    grid-template-columns: 200px 50% auto;
     grid-template-rows: 100px 100px 100px;
   }
 </style>
@@ -76,29 +83,36 @@
     </div>
     <button onclick="navigateTo(1)">Home</button>
     <button onclick="navigateTo(2)">Movies</button>
-    <button onclick="navigateTo(3)">Games</button>
-    <button onclick="navigateTo(4)">Battleground</button>
-    <button onclick="navigateTo(5)">Contact Us</button>
+    <button onclick="navigateTo(3)">Users</button>
     <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    {% if login: %}
+    <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
+    {% else: %}
     <button onclick="navigateTo(6)">Login</button>
-
+    {% endif %}
   </nav>
 
 
   <div class="carousel-section">
-    <h2 class="carousel-title">Movies</h2>
-    <div class="carousel-container">
-      <button class="carousel-btn left" onclick="scrollCarousel(-1)">&#10094;</button>
-      <div class="carousel"></div>
-      <button class="carousel-btn right" onclick="scrollCarousel(1)">&#10095;</button>
-    </div>
+    <h2 class="carousel-title"><b>Movies</b></h2>
   </div>
-
 <!--https://stackoverflow.com/questions/15321431/how-to-pass-a-list-from-python-by-jinja2-to-javascript/53952147#53952147-->
 <!--a beautiful stackoverflow answer showcasing the power of jinja-->
 
+<p id="john">hi</p>
+<input type="text" id="myInput" onkeyup="search()" placeholder="Search for title.."> <!--Allows for searching of movies-->
 
-<input type="text" id="myInput" onkeyup="search()" placeholder="Search for genre.."> <!--Allows for searching of movies-->
+<div class="dropdown">
+  <button>Genre</button>
+  <div class="filters">
+    <a><input class="filter" type="checkbox" value="COMEDY" id="COMEDY" onclick="filterGenre(this.value)">Comedy</a>
+    <a><input class="filter" type="checkbox" value="ROMANCE" id="ROMANCE" onclick="filterGenre(this.value)">Romance</a>
+    <a><input class="filter" type="checkbox" value="HORROR" id="HORROR" onclick="filterGenre(this.value)">Horror</a>
+    <a><input type="checkbox" value="" onclick="resetFilters()">RESET</a>
+  </div>
+</div>
 
 
 
@@ -106,11 +120,11 @@
 {% for ti in movie %} <!--add images in the next update-->
   <div id="record" class="record">  <!--https://www.w3schools.com/css/css_grid_item.asp see this website for details on 'grid system'-->
     <div style="grid-column:1/span 1;grid-row:1/span 3" id="recordImage"><img src={{ ti[4] }} width=200px height=300px></div> <!--thumbnail image-->
-    <div style="grid-column:2/span 1;grid-row:1/span 1;width:500px;" class="recordValue">NAME: {{ ti[0] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
-    <div style="grid-column:3/span 1;grid-row:1/span 1;width:200px;"class="recordValue">{{ ti[2] }} out of 10</div>
+    <div style="grid-column:2/span 1;grid-row:1/span 1;width:50%;" class="recordValue">NAME: {{ ti[0] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
+    <div style="grid-column:3/span 1;grid-row:1/span 1;width:250px;"class="recordValue">RATING: {{ ti[2] }} out of 10</div>
     <div style="grid-column:2/span 1;grid-row:3/span 1;width:50%;" class="recordValue">GENRE: {{ ti[3] }}</div> <!--genre-->
   
-    <div style="grid-column:3/span 1;grid-row:2/span 1;width:50%;"class="recordValue"> <a href="/movies/{{movie.index(ti)}}">To Movie Page</a> </div>
+    <div style="grid-column:3/span 1;grid-row:2/span 1;width:50%;"class="recordValue"> <a href="/movies/{{movie.index(ti)}}">To Movie Page</a> </div> <!--ADD NICE SNAZZY LINK MAGIC-->
     
     <div style="grid-column:2/span 1;grid-row:2/span 1;width:50%;"class="recordValue"> DIRECTOR/S: {{ ti[5] }} </div> <!--director(s)-->
   </div>
@@ -119,11 +133,142 @@
   </div>
 
 
+<!--extra css/js-->
+<style>
+  a:hover {
+  color: #fff;
+  }
 
+
+  a:hover:after {
+  width: 100%;
+  left: 0;
+  }
+
+
+.dropdown {
+  padding-left: 200px;
+  padding-bottom: 10px;
+  width: 200px;
+}
+.dropdown button {
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown a {
+  display:block;
+  text-decoration: none;
+  padding:10 15px;
+}
+
+.dropdown .filters{
+  display: none;
+  position:absolute;
+  min-width: 100px;
+  background-color:#111;
+}
+
+.dropdown:hover .filters {
+  display:block;
+}
+
+.dropdown:hover button {
+  background-color: aliceblue;
+}
+
+</style>
 
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   <script>
     //add table stuff soon...
+  function sendUserToTheirPage() { //sends user to their own page
+    window.location.href = '/users/{{sessionUsername}}'
+  }
+
+  var genres = {
+   "COMEDY": false,
+   "ROMANCE": false,
+   "HORROR": false 
+  }
+  var john;
+  john = document.getElementById("john");
+
+  function filterGenre(genre) { //from W3Schools https://www.w3schools.com/howto/howto_js_filter_table.asp
+    // Declare variables
+    var count, othercount, filter, table, tr, td, i, txtValue, button;
+    count = 0;
+    othercount = 0;
+    filter = genre.toUpperCase(); // just in case!
+    table = document.getElementById("scrollableMovieTable");
+    tr = table.getElementsByClassName("record");
+    button = document.getElementById(genre);
+    john = document.getElementById("john");
+    // Loop through all table rows, and hide those who don't match the search query
+    if (button.checked == true) {
+      button.style.display = "none";
+      genres[genre] = true;
+      for (i = 0; i < tr.length; i++) {
+        filter = genre.toUpperCase();
+        td = tr[i].getElementsByTagName("div")[3];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            for (const[key, value] of Object.entries(genres)) {
+              if (value == true) {
+                count += 1;
+                if (txtValue.toUpperCase().indexOf(key) > -1) {
+                  othercount += 1;
+                }
+              }
+            }
+            john.innerText = count;
+            if (othercount == count) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+              count = 0;
+              othercount = 0;
+            }
+            count = 0;
+            othercount = 0;
+
+            
+        }
+      }
+    }
+    count = 0;
+    othercount = 0;
+    }
+
+  function resetFilters() {
+    var filter;
+    filter = document.getElementsByClassName("filter");
+    for (i=0; i < filter.length; i++) {
+      a = filter[i];
+      a.checked = false;
+      a.style.display = "";
+    }
+
+
+
+    var table, tr, td, i, txtValue;
+    table = document.getElementById("scrollableMovieTable");
+    tr = table.getElementsByClassName("record");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("div")[1];
+      if (td) {
+          tr[i].style.display = "";
+        }
+      }
+    
+    genres['COMEDY'] = false;
+    genres['ROMANCE'] = false;
+    genres['HORROR'] = false; //hard coded solution im gonna crash out 
+    john.innerText = genres['COMEDY'];
+    }
+
 
 
   function search() { //from W3Schools https://www.w3schools.com/howto/howto_js_filter_table.asp
@@ -136,7 +281,7 @@
 
     // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("div")[3];
+      td = tr[i].getElementsByTagName("div")[1];
       if (td) {
         txtValue = td.textContent || td.innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {

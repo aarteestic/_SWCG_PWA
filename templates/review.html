@@ -1,9 +1,46 @@
-<html> <!--This really should be called moviePage because that's what it is-->
-    <head>
-        <title>register PLEASE</title>
-    </head>
-    <a href="/"> to index and suffering</a>
-    <p>what's the hooists, {{movieID}}</p> <!--Short sample code, just have placeholder text here and I will handle variables-->
-    <p>This is a dummy review page for {{ movie[movieNumber][0] }} </p>
-    <p>The TOP review is: <br><br> by {{ movieReview[movieNumber][2] }}<br><br>{{ movieReview[movieNumber][0] }} <br><br> with rating {{ movieReview[movieNumber][3] }} out of 10</p>
-    </html><!--Have space for: movie image, movie title, movie rating, top review, and review button-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadow Wizard Coding Gang Website</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
+</head>
+<body>
+  <div class="background-layer"></div>
+  <nav>
+    <div class="logo-container">
+      <a href="/"> <!--calls the index page or 'default' URL-->
+        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo">
+      </a>
+    </div>
+    <button onclick="navigateTo(1)">Home</button>
+    <button onclick="navigateTo(2)">Movies</button>
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    {% if login: %}
+    <button onclick="sendUserToTheirPage()">{{ userName }}</button>
+    {% else: %}
+    <button onclick="navigateTo(6)">Login</button>
+    {% endif %}
+  </nav>
+
+  <p>what's the hooists, {{movieID}}</p> <!--Short sample code, just have placeholder text here and I will handle variables-->
+  <p>This is a dummy review page for {{ movie[movieNumber][0] }} </p>
+  <p>The TOP review is: <br><br> by {{ movieReview[movieNumber][2] }}<br><br>{{ movieReview[movieNumber][0] }} <br><br> with rating {{ movieReview[movieNumber][3] }} out of 10</p>
+
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  <script>
+    function sendUserToTheirPage() {
+      window.location.href = '/users/{{userName}}'
+    }
+    
+ 
+
+
+  </script>
+</body>
+</html>

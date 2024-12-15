@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadow Wizard Coding Gang Website</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
+</head>
+
+<style>
+    #scrollableMovieTable {
+      margin-left: auto;
+      margin-right: auto; /*aligns the table in the middle */
+  
+      font-size: 18px;
+      color: #e1e1e1;
+      font-family: inherit;
+      font-weight: 800;
+  
+      height:450px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+  
+    #myInput {
+  
+      margin-left: 5%;
+      margin-right: 5%; /*aligns the table in the middle */
+  
+      width: 80%; /* Full-width */
+  
+  
+      font-size: 10px; /* Increase font-size */
+      padding: 12px 20px 12px 40px; /* Add some padding */
+      border: 1px solid #ddd; /* Add a grey border */
+      margin-bottom: 12px; /* Add some space below the input */
+  
+    }
+  
+    .recordValue {
+      float:left;
+      height: 100px;
+      padding-left: 10px;
+      border: 1px solid black;
+    }
+  
+    #recordImage {
+      border:1px solid black;
+      height:200px;
+      width: 200px;
+      float:left;
+    }
+  
+    #record {
+      
+      margin-left: auto;
+      margin-right: auto; /*aligns the table in the middle */
+  
+      border:1px solid black;
+      background-color:#111;
+      border-radius: 25px;
+  
+      height:300px;
+      width: 80%;
+      display:grid;
+      grid-template-columns: 200px 200px auto;
+      grid-template-rows: 100px 100px;
+    }
+  </style>
+
+
+<body>
+  <div class="background-layer"></div>
+  <nav>
+    <div class="logo-container">
+      <a href="/"> <!--calls the index page or 'default' URL-->
+        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo">
+      </a>
+    </div>
+    <button onclick="navigateTo(1)">Home</button>
+    <button onclick="navigateTo(2)">Movies</button>
+    <button onclick="navigateTo(3)">Users</button>
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    {% if login: %}
+    <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
+    {% else: %}
+    <button onclick="navigateTo(6)">Login</button>
+    {% endif %}
+  </nav>
+
+  <div class="carousel-section">
+    <h2 class="carousel-title"><b>Users</b></h2>
+  </div>
+
+  <input type="text" id="myInput" onkeyup="search()" placeholder="Search for user..">
+
+
+  <div id="scrollableMovieTable">
+    {% for user in movieUsername %} <!--add images in the next update-->
+      <div id="record" class="record">  <!--https://www.w3schools.com/css/css_grid_item.asp see this website for details on 'grid system'-->
+        <div style="grid-column:1/span 1;grid-row:1/span 1" class="recordValue">{{ user[0] }}</div>
+        <div style="grid-column:2/span 1;grid-row:1/span 1" class="recordValue"><a href="/users/{{ user[0] }}">To User Page</a></div>
+    </div>
+      <br>
+    {% endfor %}
+    </div>
+  
+
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  <script> // Carousel code placed within the index HTML
+    function sendUserToTheirPage() {
+      window.location.href = '/users/{{sessionUsername}}'
+    }
+
+    function search() { //from W3Schools https://www.w3schools.com/howto/howto_js_filter_table.asp
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("scrollableMovieTable");
+    tr = table.getElementsByClassName("record");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("div")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  </script>
+</body>
+</html>

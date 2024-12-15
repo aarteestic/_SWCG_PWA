@@ -9,7 +9,7 @@ function navigateTo(page) {
       targetPage = '/movies';
       break;
     case 3:
-      targetPage = 'games.html';
+      targetPage = '/users';
       break;
     case 4:
       targetPage = 'battleground.html';
@@ -18,7 +18,7 @@ function navigateTo(page) {
       targetPage = 'contact.html';
       break;
     case 6:
-      targetPage = '/login_1'
+      targetPage = '/login'
       break;
   }
 

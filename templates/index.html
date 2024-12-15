@@ -17,11 +17,15 @@
     </div>
     <button onclick="navigateTo(1)">Home</button>
     <button onclick="navigateTo(2)">Movies</button>
-    <button onclick="navigateTo(3)">Games</button>
-    <button onclick="navigateTo(4)">Battleground</button>
-    <button onclick="navigateTo(5)">Contact Us</button>
+    <button onclick="navigateTo(3)">Users</button>
     <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    {% if login: %}
+    <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
+    {% else: %}
     <button onclick="navigateTo(6)">Login</button>
+    {% endif %}
   </nav>
 
   <div class="carousel-container">
@@ -32,9 +36,13 @@
 
 
 
-
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   <script> // Carousel code placed within the index HTML
+    function sendUserToTheirPage() {
+      window.location.href = '/users/{{sessionUsername}}'
+    }
+    
+    
     let numPosters = 3; // Set this value to control the number of movie posters
     let currentIndex = 0;
 
@@ -46,11 +54,10 @@
 
     function loadPosters() {
       carousel.innerHTML = '';
+      const movieRecord = {{movie | tojson}}; //not actually movieRecord, but a list of all movies
       for (let i = 0; i < numPosters; i++) {
         const img = document.createElement('img');
-        const movieName = {{movie | tojson}}; //not actually movieName, but a list of all movies
-        console.log(movieName)
-        img.src = movieName[i][4];
+        img.src = movieRecord[i][4];
         img.alt = `Poster ${i+1}`;
         carousel.appendChild(img);
         console.log('loaded ${i}')
