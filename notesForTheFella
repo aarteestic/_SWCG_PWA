@@ -5,19 +5,14 @@ https://stackoverflow.com/questions/62192623/how-can-i-pass-jinja-variable-to-th
 
 TO DO:
 
-
-+++ user page
-
-+++ delete review option in user page (if sessionUsername == name of page)
-
 +++ write warning messages for login form for:
     + if nothing is in input
     + put wordcount restriction
     + redirect to register
 
-
-
 +++ tidy up movies and users CSS
+
++++ put in more movies
 
 +++ update genres as needed in resetFilters() in movies.html
 
