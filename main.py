@@ -27,6 +27,17 @@ con.close()
 
 app = Flask(__name__)
 
+def refreshData():
+    con = sqlite3.connect('SWCG.db')
+    cur = con.cursor()
+    movieUser = cur.execute('SELECT * FROM user').fetchall()
+    movieRecord = cur.execute('SELECT * FROM movie').fetchall()
+    movieID = cur.execute(''' SELECT id FROM movie ''').fetchall()
+    movieReview = cur.execute('SELECT * FROM reviews').fetchall()
+    movieUsername = cur.execute('SELECT name FROM user').fetchall()
+    cur.close()
+    con.close()
+
 
 @app.route("/") #To home page
 def index():
@@ -114,18 +125,22 @@ def user(name):
 #Dynamically creates movie pages for each movie in the SWCG database.
 @app.route('/movies/<int:movieNumber>', methods = ['GET', 'POST']) #To each specific movie
 def movie(movieNumber): #movieNumber not to be confused with movieID, which is for the SWCG database (;
+    refreshData()
     websiteURL = f'/movies/{movieNumber}'
     print(websiteURL)
+    con = sqlite3.connect('SWCG.db')
+    cur = con.cursor()
+    currentReviews = cur.execute('SELECT review, rating, user FROM reviews WHERE movieID=?', [movieNumber + 1]).fetchall()
+    cur.close()
+    con.close()
+    
     if request.method == "POST": #for logging into an account, once form is sent
         if login:
             reviewText = request.form.get('reviewText')
             rating = request.form.get('rating')
 
 
-            con = sqlite3.connect('SWCG.db')
-            cur = con.cursor()
 
-            currentReviews = cur.execute('SELECT review, rating, user FROM reviews WHERE movieID=?', [movieNumber + 1]).fetchall()
 
 
         
@@ -151,23 +166,22 @@ def movie(movieNumber): #movieNumber not to be confused with movieID, which is f
                     print('real')
             if exists == True: #check if exists in database
                 print('nice')
-                cur.close()
-                con.close()
             else: #if not, then adds it to the database
+                con = sqlite3.connect('SWCG.db')
+                cur = con.cursor()                
                 cur.execute(''' INSERT INTO reviews VALUES
                             (?, ?, ?, ?) ''', [reviewText, movieNumber+1, sessionUsername, rating])
                 print('goo')
                 con.commit()
-
                 cur.close()
                 con.close()
-                return redirect('/')
+                return redirect(websiteURL)
         
     
     for i in range(0, len(movieID)): #stops indexing at j-1 because python is dumb!!!
         print(i)
         if movieNumber == movieID[i][0] - 1: #to begin indexing from 0
-            return render_template('review.html', movieNumber=movieNumber, movie=movieRecord, movieReview=movieReview, login=login, sessionUsername=sessionUsername, websiteURL=websiteURL)
+            return render_template('review.html', movieNumber=movieNumber, movie=movieRecord, movieReview=currentReviews, login=login, sessionUsername=sessionUsername, websiteURL=websiteURL)
         else:
             next
     return 'Error! Movie not found!' #replace with error page

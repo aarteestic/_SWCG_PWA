@@ -84,7 +84,7 @@
     </div>
     <button onclick="navigateTo(1)">Home</button>
     <button onclick="navigateTo(2)">Movies</button>
-    <button class="invisible" disabled></button>
+    <button onclick="navigateTo(3)">Users</button>
     <button class="invisible" disabled></button>
     <button class="invisible" disabled></button>
     <button class="invisible" disabled></button>
@@ -97,7 +97,16 @@
 
   <p>what's the hooists, {{movieID}}</p> <!--Short sample code, just have placeholder text here and I will handle variables-->
   <p>This is a dummy review page for {{ movie[movieNumber][0] }} </p>
-  <p>The TOP review is: <br><br> by {{ movieReview[movieNumber][2] }}<br><br>{{ movieReview[movieNumber][0] }} <br><br> with rating {{ movieReview[movieNumber][3] }} out of 10</p>
+
+  <div class="grid-container" style="display:grid;grid-template-columns: 200px 50% auto;grid-template-rows: 100px 100px 100px;">
+    <div style="grid-column: 2/span 2;grid-row:1/span 1"> DESC: {{ movie[movieNumber][7] }}</div>
+
+    <div style="grid-column:1/span 1;grid-row:1/span 3"> <img src={{ movie[movieNumber][4] }} width=200px height=300px></div>
+    <div style="grid-column: 2/span 1;grid-row:2/span 1"> TITLE: {{ movie[movieNumber][0] }}</div>
+    <div style="grid-column: 2/span 1;grid-row:3/span 1"> YEAR: {{ movie[movieNumber][1] }}</div>
+    <div style="grid-column: 3/span 1;grid-row:2/span 1"> RATING: {{ movie[movieNumber][2] }}</div>
+    <div style="grid-column: 3/span 1;grid-row:3/span 1"> DIRECTOR/S: {{ movie[movieNumber][2] }}</div>
+  </div>
 
   <form action="{{ websiteURL }}" method="post">
     <label for="reviewText">Review:</label>
@@ -117,14 +126,12 @@
   <button onclick="refresh()">Hello</button>
   <div id="scrollableMovieTable">
     {% for review in movieReview %} <!--add images in the next update-->
-    {% if review[1] == movieNumber + 1 %}
       <div id="record" class="record">  <!--https://www.w3schools.com/css/css_grid_item.asp see this website for details on 'grid system'-->
         <div style="grid-column:2/span 1;grid-row:1/span 1;width:50%;" class="recordValue">NAME: {{ review[2] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
-        <div style="grid-column:3/span 1;grid-row:1/span 1;width:250px;"class="recordValue">RATING: {{ review[3] }} out of 10</div>
+        <div style="grid-column:3/span 1;grid-row:1/span 1;width:250px;"class="recordValue">RATING: {{ review[1] }} out of 10</div>
         <div style="grid-column:2/span 1;grid-row:3/span 1;width:50%;" class="recordValue">REVIEW: {{ review[0] }}</div> <!--genre-->
       </div>
       <br>
-    {% endif %}  
     {% endfor %}
       </div>
 
@@ -134,9 +141,10 @@
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   <script>
     function sendUserToTheirPage() {
-      window.location.href = '/users/{{userName}}'
+      window.location.href = '/users/{{sessionUsername}}'
     }
     
+ 
 
 
   </script>
