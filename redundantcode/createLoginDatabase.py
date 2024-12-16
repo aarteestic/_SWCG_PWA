@@ -32,3 +32,6 @@ else:
 
 res = cur.execute('''SELECT name FROM user ''').fetchall()
 print(res)
+
+cur.close()
+con.close()
