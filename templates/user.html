@@ -1,12 +1,103 @@
-<html>
-    <head>
-        <title>Hello</title>
-    </head>
-    <a href="/"> to index and suffering</a>
-    <p>Hello!!!</p>
-    {%if userReview != []:%}
-    <p>{{userReview}}</p>
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadow Wizard Coding Gang Website</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
+</head>
+<body>
+  <div class="background-layer"></div>
+  <nav>
+    <div class="logo-container">
+      <a href="/"> <!--calls the index page or 'default' URL-->
+        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo">
+      </a>
+    </div>
+    <button onclick="navigateTo(1)">Home</button>
+    <button onclick="navigateTo(2)">Movies</button>
+    <button onclick="navigateTo(3)">Users</button>
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
+    {% if login: %}
+    <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
+    <form action="/" class="logoutForm" method="post">
+      <button type="submit">Logout</button>
+    </form>
     {% else: %}
-    <p> {{name}} does not have any reviews. </p>
+    <button onclick="navigateTo(5)">Register</button>
+    <button onclick="navigateTo(6)">Login</button>
     {% endif %}
-    </html><!--Have space for: movie image, movie title, movie rating, top review, and review button-->
+  </nav>
+  <img src="{{url_for('static', filename='ASSETS/NAV_IMG.png')}}" class="logo">
+  <p>{{name}}</p>
+
+<div id="scrollableReviewTable">
+  {% for review in userReview %}
+  <div id="review">
+    <div style="grid-column:1/span 1; grid-row:1/span 3"><img src={{ movie[review[1] - 1][4] }} width="200px" height="300px"></div>
+    <div style="grid-column:2/span 3; grid-row: 1/span 1;"> MOVIE: {{movie[review[1] - 1][0]}} </div>
+    <div style="grid-column:2/span 3; grid-row: 3/ span 1;"> REVIEW: {{review[0]}} </div>
+    <div style="grid-column:2/span 1;grid-row: 2/span 1;"> RATING: {{review[3]}} </div>
+    {% if login and sessionUsername == name: %}
+    <div>
+        <form action="{{ websiteURL }}" class="deleteForm" method="post">
+            <input name="deleteReview" value="{{ review[0] }}" style="display:none;">
+            <input name="deleteRating" value="{{ review[3] }}" style="display:none;">
+            <input name="deleteID" value="{{ review[1] }}" style="display:none;">
+            <button type="submit">DELETE</button>
+        </form>
+    </div>
+    {% else: %}
+    <div> Login to delete reviews </div>
+    {% endif %}
+  </div> 
+  <br>
+  {% endfor %}
+</div>
+  
+
+  <style>
+    .logo {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 30%;
+    }
+    #scrollableReviewTable {
+    margin-left: auto;
+    margin-right: auto; /*aligns the table in the middle */
+
+    font-size: 18px;
+    color: #e1e1e1;
+    font-family: inherit;
+    font-weight: 800;
+
+    height:450px;
+    overflow-y: scroll;
+    scrollbar-color: black white;
+    scroll-snap-align: center;
+    scroll-margin: 10px;
+    overflow-x: hidden;
+  }
+  #review {
+    margin-left: auto;
+    margin-right: auto; /*aligns the table in the middle */
+
+    border:1px solid black;
+    background-color:#111;
+    border-radius: 25px;
+
+    height:30%px;
+    width: 80%;
+    display:grid;
+    grid-template-columns: 200px 50% auto;
+    grid-template-rows: 100px 100px 100px;
+  }
+  </style>
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

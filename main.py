@@ -30,6 +30,11 @@ app = Flask(__name__)
 def refreshData():
     con = sqlite3.connect('SWCG.db')
     cur = con.cursor()
+    global movieUser
+    global movieRecord
+    global movieID
+    global movieReview
+    global movieUsername
     movieUser = cur.execute('SELECT * FROM user').fetchall()
     movieRecord = cur.execute('SELECT * FROM movie').fetchall()
     movieID = cur.execute(''' SELECT id FROM movie ''').fetchall()
@@ -48,14 +53,21 @@ def sw():
     return response
 
 
-@app.route("/") #To home page
+@app.route("/", methods = ['GET', 'POST']) #To home page
 def index():
+    refreshData()
+    if request.method == "POST":
+        global sessionUsername
+        sessionUsername = ""
+        global login
+        login = False
     return render_template("index.html", movie=movieRecord, login=login, sessionUsername=sessionUsername) #looks for the name of a file from the 'templates' file
 
 # code inputs
 
 @app.route("/movies")  #To movies page
 def movies():
+    refreshData()
     if login:
         print(login)
         print(f'User {sessionUsername} is in the movies page!')
@@ -63,6 +75,7 @@ def movies():
 
 @app.route("/users")
 def users():
+    refreshData()
     return render_template("users.html", movieUsername=movieUsername, movieReview=movieReview, movieID=movieID, login=login, sessionUsername=sessionUsername)
 
 
@@ -75,11 +88,22 @@ def register():
         con = sqlite3.connect('SWCG.db')
         cur = con.cursor()
         print(name)
+        exists = False
+        for user in movieUser:
+            if user[0] != name:
+                cur.execute("INSERT INTO user (name, password) VALUES(?, ?)", (name, password))
+                con.commit()
+                global login 
+                login = True
+                global sessionUsername
+                sessionUsername = name
+            else:
+                cur.close()
+                con.close()            
+                return "Your account exists"
 
-        cur.execute("INSERT INTO user (name, password) VALUES(?, ?)", (name, password))
-
-        con.commit()
         cur.close()
+        con.close()
         return "Your account, with name " + name + " has been registered!"
     return render_template("register.html")
 
@@ -119,6 +143,29 @@ def login_1():
 
 @app.route('/users/<string:name>', methods = ['GET', 'POST'])
 def user(name):
+    refreshData()
+    websiteURL = f'/users/{name}'
+    if request.method == "POST": #for logging into an account, once form is sent
+            movID = request.form.get('deleteID')
+            movRev = request.form.get('deleteReview')
+            movRat = request.form.get('deleteRating')
+            con = sqlite3.connect('SWCG.db')
+            cur = con.cursor()
+
+            movRec = cur.execute(' SELECT * FROM reviews').fetchall()
+            for rec in movRec:
+                if rec[0] == movRev and str(rec[1]) == str(movID) and rec[2] == name and str(rec[3]) == str(movRat): 
+                    cur.execute(''' DELETE FROM reviews WHERE review=? AND movieID=? AND user=? AND rating=? ''', (movRev, int(movID), name, int(movRat)))
+                    print('Record deleted.')
+                    con.commit()
+                    break
+
+            cur.close()
+            con.close()
+
+            return redirect(websiteURL)
+
+            
     userReview = []
     for review in movieReview:
         if review[2] == name:
@@ -126,7 +173,7 @@ def user(name):
     for i in range(0, len(movieUser)):
         print(movieUser[i][0])
         if name == movieUser[i][0]:
-            return render_template('user.html', userReview=userReview, login=login, sessionUsername=sessionUsername, name=name)
+            return render_template('user.html', userReview=userReview, login=login, sessionUsername=sessionUsername, name=name, movie=movieRecord, websiteURL=websiteURL)
         else:
             next
     return 'Error! User not found!' #replace with error page

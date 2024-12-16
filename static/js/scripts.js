@@ -29,7 +29,7 @@ function navigateTo(page) {
       targetPage = 'battleground.html';
       break;
     case 5:
-      targetPage = 'contact.html';
+      targetPage = '/register';
       break;
     case 6:
       targetPage = '/login'

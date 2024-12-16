@@ -68,7 +68,7 @@
     width: 80%;
     display:grid;
     grid-template-columns: 200px 50% auto;
-    grid-template-rows: 100px 100px 100px;
+    grid-template-rows: 100px 100px auto;
   }
 </style>
 
@@ -89,7 +89,11 @@
     <button class="invisible" disabled></button>
     {% if login: %}
     <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
+    <form action="/" class="logoutForm" method="post">
+      <button type="submit">Logout</button>
+    </form>
     {% else: %}
+    <button onclick="navigateTo(5)">Register</button>
     <button onclick="navigateTo(6)">Login</button>
     {% endif %}
   </nav>
@@ -127,7 +131,7 @@
     <div style="grid-column:3/span 1;grid-row:2/span 1;width:50%;"class="recordValue"> <a href="/movies/{{movie.index(ti)}}">To Movie Page</a> </div> <!--ADD NICE SNAZZY LINK MAGIC-->
     
     <div style="grid-column:2/span 1;grid-row:2/span 1;width:50%;"class="recordValue"> DIRECTOR/S: {{ ti[5] }} </div> <!--director(s)-->
-    <div id="boolea">True</div>
+    <div style="display:none;">True</div> <!--pseudo-boolean value for searching-->
   
   </div>
   <br>
