@@ -127,6 +127,8 @@
     <div style="grid-column:3/span 1;grid-row:2/span 1;width:50%;"class="recordValue"> <a href="/movies/{{movie.index(ti)}}">To Movie Page</a> </div> <!--ADD NICE SNAZZY LINK MAGIC-->
     
     <div style="grid-column:2/span 1;grid-row:2/span 1;width:50%;"class="recordValue"> DIRECTOR/S: {{ ti[5] }} </div> <!--director(s)-->
+    <div id="boolea">True</div>
+  
   </div>
   <br>
 {% endfor %}
@@ -211,6 +213,7 @@
       for (i = 0; i < tr.length; i++) {
         filter = genre.toUpperCase();
         td = tr[i].getElementsByTagName("div")[3];
+        tr[i].getElementsByTagName("div")[6].innerText = 'hi';
         if (td) {
             txtValue = td.textContent || td.innerText;
             for (const[key, value] of Object.entries(genres)) {
@@ -224,8 +227,10 @@
             john.innerText = count;
             if (othercount == count) {
               tr[i].style.display = "";
+              tr[i].getElementsByTagName("div")[6].innerText = 'True';
             } else {
               tr[i].style.display = "none";
+              tr[i].getElementsByTagName("div")[6].innerText = 'False';
               count = 0;
               othercount = 0;
             }
@@ -257,9 +262,12 @@
 
     // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
+      check = tr[i].getElementsByTagName("div")[6].textContent;
       td = tr[i].getElementsByTagName("div")[1];
+      
       if (td) {
           tr[i].style.display = "";
+          tr[i].getElementsByTagName("div")[6].innerText = 'True'; //if check is True, then display
         }
       }
     
@@ -268,7 +276,6 @@
     genres['HORROR'] = false; //hard coded solution im gonna crash out 
     john.innerText = genres['COMEDY'];
     }
-
 
 
   function search() { //from W3Schools https://www.w3schools.com/howto/howto_js_filter_table.asp
@@ -281,8 +288,9 @@
 
     // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
+      check = tr[i].getElementsByTagName("div")[6].textContent;
       td = tr[i].getElementsByTagName("div")[1];
-      if (td) {
+      if (td && check == 'True') {
         txtValue = td.textContent || td.innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
