@@ -108,7 +108,7 @@
     <div style="grid-column: 3/span 1;grid-row:3/span 1"> DIRECTOR/S: {{ movie[movieNumber][2] }}</div>
   </div>
 
-  <form action="{{ websiteURL }}" method="post">
+  <form id="reviewForm" action="{{ websiteURL }}" method="post" onsubmit="prepareForm()">
     <label for="reviewText">Review:</label>
     <textarea id="reviewText" name="reviewText" style="width:80%;height:200px;resize:none;"></textarea>
     <br>
@@ -129,7 +129,7 @@
       <div id="record" class="record">  <!--https://www.w3schools.com/css/css_grid_item.asp see this website for details on 'grid system'-->
         <div style="grid-column:2/span 1;grid-row:1/span 1;width:50%;" class="recordValue">NAME: {{ review[2] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
         <div style="grid-column:3/span 1;grid-row:1/span 1;width:250px;"class="recordValue">RATING: {{ review[1] }} out of 10</div>
-        <div style="grid-column:2/span 1;grid-row:3/span 1;width:50%;" class="recordValue">REVIEW: {{ review[0] }}</div> <!--genre-->
+        <div style="grid-column:2/span 1;grid-row:3/span 1;width:50%;" maxlength="50" class="recordValue">REVIEW: {{ review[0] }}</div> <!--genre-->
       </div>
       <br>
     {% endfor %}
@@ -143,9 +143,20 @@
     function sendUserToTheirPage() {
       window.location.href = '/users/{{sessionUsername}}'
     }
-    
- 
+      let reviewForm = document.getElementById('reviewForm'); //Validates the form's contents
 
+      reviewForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var reviewText;
+        reviewText = document.getElementById('reviewText').value;
+        if (reviewText == '') {
+          alert('Review is empty! Write something in.');
+        }
+        else {
+          alert('Text detected: ' + reviewText)
+          reviewForm.submit();
+        }
+      });
 
   </script>
 </body>

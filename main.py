@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, make_response, send_from_directory
 import sqlite3
 from markupsafe import escape
 from waitress import serve
@@ -37,6 +37,15 @@ def refreshData():
     movieUsername = cur.execute('SELECT name FROM user').fetchall()
     cur.close()
     con.close()
+
+
+@app.route('/sw.js')
+def sw():
+    response=make_response(
+                     send_from_directory('static', path='sw.js'))
+    #change the content header file. Can also omit; flask will handle correctly.
+    response.headers['Content-Type'] = 'application/javascript'
+    return response
 
 
 @app.route("/") #To home page
