@@ -19,7 +19,6 @@ cur.execute('''
 con.commit()
 
 
-
 #TABLE movie takes values -- title, year, score.
 
 
@@ -27,4 +26,4 @@ res = cur.execute("SELECT genre FROM movie") #gives tuple of 3 values of movie n
 
 movieTable = cur.execute('''SELECT name FROM sqlite_master WHERE type='table' AND name='movie' ''').fetchone()
 # checks if table exists
-print(res.fetchall())
+con.close()

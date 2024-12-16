@@ -7,6 +7,73 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
 </head>
+
+
+<style>
+  #scrollableMovieTable {
+    margin-left: auto;
+    margin-right: auto; /*aligns the table in the middle */
+
+    font-size: 18px;
+    color: #e1e1e1;
+    font-family: inherit;
+    font-weight: 800;
+
+    height:450px;
+    overflow-y: scroll;
+    scrollbar-color: black white;
+    scroll-snap-align: center;
+    scroll-margin: 10px;
+    overflow-x: hidden;
+  }
+
+  #myInput {
+
+    margin-left: 5%;
+    margin-right: 5%; /*aligns the table in the middle */
+
+    width: 80%; /* Full-width */
+
+
+    font-size: 10px; /* Increase font-size */
+    padding: 12px 20px 12px 40px; /* Add some padding */
+    border: 1px solid #ddd; /* Add a grey border */
+    margin-bottom: 12px; /* Add some space below the input */
+
+  }
+
+  .recordValue {
+    float:left;
+    height: 100px;
+    padding-left: 10px;
+    border: 1px solid black;
+  }
+
+  #recordImage {
+    border:1px solid black;
+    height:300px;
+    width: 200px;
+    float:left;
+  }
+
+  #record {
+    
+    margin-left: auto;
+    margin-right: auto; /*aligns the table in the middle */
+
+    border:1px solid black;
+    background-color:#111;
+    border-radius: 25px;
+
+    height:30%px;
+    width: 80%;
+    display:grid;
+    grid-template-columns: 200px 50% auto;
+    grid-template-rows: 100px 100px 100px;
+  }
+</style>
+
+
 <body>
   <div class="background-layer"></div>
   <nav>
@@ -22,7 +89,7 @@
     <button class="invisible" disabled></button>
     <button class="invisible" disabled></button>
     {% if login: %}
-    <button onclick="sendUserToTheirPage()">{{ userName }}</button>
+    <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
     {% else: %}
     <button onclick="navigateTo(6)">Login</button>
     {% endif %}
@@ -32,13 +99,44 @@
   <p>This is a dummy review page for {{ movie[movieNumber][0] }} </p>
   <p>The TOP review is: <br><br> by {{ movieReview[movieNumber][2] }}<br><br>{{ movieReview[movieNumber][0] }} <br><br> with rating {{ movieReview[movieNumber][3] }} out of 10</p>
 
+  <form action="{{ websiteURL }}" method="post">
+    <label for="reviewText">Review:</label>
+    <textarea id="reviewText" name="reviewText" style="width:80%;height:200px;resize:none;"></textarea>
+    <br>
+    <label for="rating">Rating out of 10:</label>
+    <select name="rating" id="rating">
+      {% for i in range(1, 11)%}
+      <option value={{ i }}>{{ i }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Submit</button>
+
+
+<br>
+
+  <button onclick="refresh()">Hello</button>
+  <div id="scrollableMovieTable">
+    {% for review in movieReview %} <!--add images in the next update-->
+    {% if review[1] == movieNumber + 1 %}
+      <div id="record" class="record">  <!--https://www.w3schools.com/css/css_grid_item.asp see this website for details on 'grid system'-->
+        <div style="grid-column:2/span 1;grid-row:1/span 1;width:50%;" class="recordValue">NAME: {{ review[2] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
+        <div style="grid-column:3/span 1;grid-row:1/span 1;width:250px;"class="recordValue">RATING: {{ review[3] }} out of 10</div>
+        <div style="grid-column:2/span 1;grid-row:3/span 1;width:50%;" class="recordValue">REVIEW: {{ review[0] }}</div> <!--genre-->
+      </div>
+      <br>
+    {% endif %}  
+    {% endfor %}
+      </div>
+
+
+
+
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   <script>
     function sendUserToTheirPage() {
       window.location.href = '/users/{{userName}}'
     }
     
- 
 
 
   </script>
