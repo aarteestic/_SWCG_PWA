@@ -13,8 +13,7 @@ Activate the virtual environment by inserting in your terminal:
 ### If that doesn't work,
 You may try downloading the dependencies, done in your terminal with:
 `
-pip install flask
-pip install flask-bcrypt
+pip install flask flask-bcrypt
 `
 
 
