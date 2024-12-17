@@ -264,7 +264,7 @@ def movie(movieNumber): #movieNumber not to be confused with movieID, which is f
 
 
 
-mode = "dev"
+mode = "prod"
 
 if __name__ == "__main__":
     if mode == "prod":
