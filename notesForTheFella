@@ -5,12 +5,7 @@ https://stackoverflow.com/questions/62192623/how-can-i-pass-jinja-variable-to-th
 
 TO DO:
 
-+++ write warning messages for login form for:
-    + if nothing is in input
-    + put wordcount restriction
-    + redirect to register
-
-+++ tidy up movies and users CSS
++++ CSS + mobile adaptability
 
 +++ put in more movies
 
@@ -19,7 +14,5 @@ TO DO:
 
 
 +++ service worker + manifest.json
-
-+++ CSS EVERYTHING NICER
 
 +++ make NAV_IMG smaller
