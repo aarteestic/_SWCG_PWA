@@ -113,7 +113,10 @@
     <br>
     <a><input class="filter" type="checkbox" value="COMEDY" id="COMEDY" onclick="filterGenre(this.value)">Comedy</a>
     <a><input class="filter" type="checkbox" value="ROMANCE" id="ROMANCE" onclick="filterGenre(this.value)">Romance</a>
-    <a><input class="filter" type="checkbox" value="HORROR" id="HORROR" onclick="filterGenre(this.value)">Horror</a>
+    <a><input class="filter" type="checkbox" value="DRAMA" id="DRAMA" onclick="filterGenre(this.value)">Drama</a>
+    <a><input class="filter" type="checkbox" value="ACTION" id="ACTION" onclick="filterGenre(this.value)">Action</a>
+    <a><input class="filter" type="checkbox" value="HISTORY" id="HISTORY" onclick="filterGenre(this.value)">History</a>
+    <a><input class="filter" type="checkbox" value="FANTASY" id="FANTASY" onclick="filterGenre(this.value)">Fantasy</a>
     <br>
     <br>
     <button onclick="resetFilters()" style="margin-left:10px;">RESET</button>
@@ -137,7 +140,6 @@
     <div style="grid-column:2/span 2;grid-row:2/span 1;width:50%;"class="recordValue"> <p style="color:coral;">DIRECTOR/S:</p> {{ ti[5] }} </div> <!--director(s)-->
     <div style="display:none;">True</div> <!--pseudo-boolean value for searching-->
   </div>
-  <br>
 {% endfor %}
   </div>
 
@@ -249,7 +251,10 @@
   var genres = {
    "COMEDY": false,
    "ROMANCE": false,
-   "HORROR": false 
+   "DRAMA": false,
+   "ACTION": false,
+   "HISTORY": false,
+   "FANTASY": false
   }
 
   function filterGenre(genre) { //from W3Schools https://www.w3schools.com/howto/howto_js_filter_table.asp
@@ -313,9 +318,7 @@
     table = document.getElementById("scrollableMovieTable");
     tr = table.getElementsByClassName("record");
 
-    // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
-      check = tr[i].getElementsByTagName("div")[6].textContent;
       td = tr[i].getElementsByTagName("div")[1];
       
       if (td) {
@@ -326,8 +329,11 @@
     
     genres['COMEDY'] = false;
     genres['ROMANCE'] = false;
-    genres['HORROR'] = false; //hard coded solution im gonna crash out 
-    }
+    genres['DRAMA'] = false; //hard coded solution im gonna crash out 
+    genres['ACTION'] = false;
+    genres['HISTORY'] = false;
+    genres['FANTASY'] = false;  
+  }
 
   function search() { //from W3Schools https://www.w3schools.com/howto/howto_js_filter_table.asp
     // Declare variables
