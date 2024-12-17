@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, make_response, send_from_directory
+from flask import Flask, render_template, url_for, request, redirect, make_response, send_from_directory, send_file
 from flask_bcrypt import Bcrypt
 import sqlite3
 from markupsafe import escape
@@ -49,6 +49,11 @@ def refreshData():
     cur.close()
     con.close()
 
+
+@app.route('/manifest.json')
+def serve_manifest():
+    print('served, queen!')
+    return send_file('manifest.json', mimetype='application/manifest+json')
 
 @app.route('/sw.js')
 def sw():
