@@ -88,7 +88,6 @@ def register():
         con = sqlite3.connect('SWCG.db')
         cur = con.cursor()
         print(name)
-        exists = False
         for user in movieUser:
             if user[0] != name:
                 cur.execute("INSERT INTO user (name, password) VALUES(?, ?)", (name, password))
@@ -100,11 +99,11 @@ def register():
             else:
                 cur.close()
                 con.close()            
-                return "Your account exists"
+                return render_template('message.html', login=login, sessionUsername=sessionUsername, message=f"Account already with name {name} ")
 
         cur.close()
         con.close()
-        return "Your account, with name " + name + " has been registered!"
+        return render_template('message.html', login=login, sessionUsername=sessionUsername, message=f"Account registered as {sessionUsername}!")
     return render_template("register.html")
 
 @app.route('/login', methods = ['GET', 'POST']) #To login page
@@ -135,10 +134,10 @@ def login_1():
             if exists == True:
                 global login
                 login = True # user is now logged in, allowing pages to have their logged in version
-                return redirect("/")
+                return render_template('message.html', login=login, sessionUsername=sessionUsername, message="Logged in!")
                 
             else:
-                return "You DOG."
+                return render_template('message.html', login=login, sessionUsername=sessionUsername, message="Log in failed!")
         return render_template('login1.html')
 
 @app.route('/users/<string:name>', methods = ['GET', 'POST'])

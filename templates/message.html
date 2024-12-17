@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadow Wizard Coding Gang Website</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
+</head>
+<body>
+  <div class="background-layer"></div>
+  <nav>
+    <div class="logo-container">
+      <a href="/"> <!--calls the index page or 'default' URL-->
+        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo">
+      </a>
+    </div>
+    <button onclick="navigateTo(1)">Home</button>
+    <button onclick="navigateTo(2)">Movies</button>
+    <button onclick="navigateTo(3)">Games</button>
+    <button onclick="navigateTo(4)">Battleground</button>
+    {% if login: %}
+    <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
+    <form action="/" class="logoutForm" method="post">
+      <button type="submit">Logout</button>
+    </form>
+    {% else: %}
+    <button onclick="navigateTo(5)">Register</button>
+    <button onclick="navigateTo(6)">Login</button>
+    {% endif %}
+  </nav>
+
+  <p>{{message}}</p>
+
+
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
