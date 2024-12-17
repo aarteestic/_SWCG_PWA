@@ -1,4 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, make_response, send_from_directory
+from flask_bcrypt import Bcrypt
 import sqlite3
 from markupsafe import escape
 from waitress import serve
@@ -25,7 +26,12 @@ cur.close()
 con.close()
 
 
+
 app = Flask(__name__)
+
+bcrypt = Bcrypt(app)
+
+
 
 def refreshData():
     con = sqlite3.connect('SWCG.db')
@@ -89,13 +95,16 @@ def register():
         cur = con.cursor()
         print(name)
         for user in movieUser:
-            if user[0] != name:
-                cur.execute("INSERT INTO user (name, password) VALUES(?, ?)", (name, password))
+            if user[0] != name or user[0] == '':
+                encryptedPassword = bcrypt.generate_password_hash(password)
+                cur.execute("INSERT INTO user (name, password) VALUES(?, ?)", (name, encryptedPassword))
                 con.commit()
+                print('inserted')
                 global login 
                 login = True
                 global sessionUsername
                 sessionUsername = name
+                break
             else:
                 cur.close()
                 con.close()            
@@ -117,23 +126,24 @@ def login_1():
             con = sqlite3.connect('SWCG.db')
             cur = con.cursor()
 
-            movieRecord = cur.execute("SELECT name, password FROM user").fetchall()
+            movieLogin = cur.execute("SELECT name, password FROM user").fetchall()
             cur.close()
             con.close()
 
-            print(movieRecord)
+            print(movieLogin)
             exists = False
-            for i in range(0, len(movieRecord)):
-                print(movieRecord[i][0])
-                checkName = movieRecord[i][0]
-                checkPassword = movieRecord[i][1]
-                if checkName == name and checkPassword == password: #if name and password runs, then account exists
+            for i in range(0, len(movieLogin)):
+                print(movieLogin[i][0])
+                checkName = movieLogin[i][0]
+                checkEncryptedPassword = movieLogin[i][1]
+                if checkName == name and bcrypt.check_password_hash(checkEncryptedPassword, password): #if name and password runs, then account exists
                     global sessionUsername
                     sessionUsername = checkName #gets sessionUsername
                     exists = True
             if exists == True:
                 global login
                 login = True # user is now logged in, allowing pages to have their logged in version
+                print('hi')
                 return render_template('message.html', login=login, sessionUsername=sessionUsername, message="Logged in!")
                 
             else:
