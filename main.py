@@ -8,7 +8,6 @@ sessionUsername = ''
 con = sqlite3.connect('SWCG.db')
 cur = con.cursor()
 
-
 movieUser = cur.execute('SELECT * FROM user').fetchall()
 
 movieRecord = cur.execute('SELECT * FROM movie').fetchall()
@@ -235,7 +234,7 @@ def movie(movieNumber): #movieNumber not to be confused with movieID, which is f
                     exists = True
                     print('real')
             if exists == True: #check if exists in database
-                print('nice')
+                return render_template('message.html', message="Review already exists! Please try again.")
             else: #if not, then adds it to the database
                 con = sqlite3.connect('SWCG.db')
                 cur = con.cursor()                

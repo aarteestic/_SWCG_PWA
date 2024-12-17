@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\Wilson\Downloads\SWCG_PWA_2\SWCG_PWA_2\.venv
+set VIRTUAL_ENV=C:\Users\Wilson\Documents\GitHub\SWCG_PWA_real\SWCG_PWA_real\SWCG_PWA_real\.venv
 
 if not defined PROMPT set PROMPT=$P$G
 
