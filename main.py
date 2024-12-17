@@ -2,7 +2,6 @@ from flask import Flask, render_template, url_for, request, redirect, make_respo
 from flask_bcrypt import Bcrypt
 import sqlite3
 from markupsafe import escape
-from waitress import serve
 login = False
 sessionUsername = ''
 con = sqlite3.connect('SWCG.db')
@@ -268,7 +267,7 @@ mode = "prod"
 
 if __name__ == "__main__":
     if mode == "prod":
-        serve(app, host="0.0.0.0", port=8000) #mock production server
+        app.run(host="0.0.0.0", debug=False) #mock production server
 
     elif mode =="dev":
         app.run(host="0.0.0.0", debug=True)
