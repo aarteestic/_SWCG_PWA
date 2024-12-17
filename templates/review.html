@@ -145,16 +145,23 @@
 <br>
 <div style="overflow-wrap: break-word; height:fit-content;max-width: 50%;"></div>
   <div id="scrollableMovieTable">
-    {% for review in movieReview %} <!--add images in the next update-->
-      <div id="record" class="record">  <!--https://www.w3schools.com/css/css_grid_item.asp see this website for details on 'grid system'-->
-        <div style="grid-column:2/span 1;grid-row:1/span 1;width:50%;" class="recordValue"><p class="data" style="color:coral;">NAME:</p> {{ review[2] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
-        <div style="grid-column:3/span 1;grid-row:1/span 1;width:250px;"class="recordValue"><p class="data" style="color:coral;">RATING:</p> {{ review[1] }} out of 10</div>
-        <div style="grid-column:1/span 3;grid-row:2/span 2;max-width:600px; overflow-wrap: break-word;height: fit-content;" class="recordValue"><p class="data" style="color:coral;text-align: left;">REVIEW:</p>{{ review[0] }}</div> <!--genre-->
+    {% if movieReview != [] %}
+      {% for review in movieReview %} <!--add images in the next update-->
+        <div id="record" class="record">  <!--https://www.w3schools.com/css/css_grid_item.asp see this website for details on 'grid system'-->
+          <div style="grid-column:2/span 1;grid-row:1/span 1;width:50%;" class="recordValue"><p class="data" style="color:coral;">NAME:</p> {{ review[2] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
+          <div style="grid-column:3/span 1;grid-row:1/span 1;width:250px;"class="recordValue"><p class="data" style="color:coral;">RATING:</p> {{ review[1] }} out of 10</div>
+          <div style="grid-column:1/span 3;grid-row:2/span 2;max-width:600px; overflow-wrap: break-word;height: fit-content;" class="recordValue"><p class="data" style="color:coral;text-align: left;">REVIEW:</p>{{ review[0] }}</div> <!--genre-->
+        </div>
+        <br>
+        <br>
+      {% endfor %}
+      {% else %}
+      <div style="margin-left: auto; margin-right: auto; background-color: #111; border-radius: 10px; width: fit-content; border: 1px solid coral;">
+        <p style="font-style: inherit; font-weight: 800;color:#fff;font-size: 12px;">No reviews... Submit one now!</p>
+        
       </div>
-      <br>
-      <br>
-    {% endfor %}
-      </div>
+    {% endif %}
+    </div>
 
 
 

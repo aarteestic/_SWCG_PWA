@@ -35,13 +35,13 @@
   </div>
 
   <br>
-    <form action="{{ url_for("register")}}" method="post" style="text-align: center;">
-        <input type="text" id="name" name="name" placeholder="Enter name" style="background-color: #111; border: 1px solid coral;font-size: 20px;font-style: inherit; font-weight: 800;">
+    <form action="{{ url_for("register")}}" method="post" style="text-align: center;" id="reviewForm">
+        <input type="text" id="name" name="name" placeholder="Enter name" style="background-color: #111; border: 1px solid coral;font-size: 20px;font-style: inherit; font-weight: 800; color:coral;">
         <br>
         <br>
         <br>
         <br>
-        <input type="text" id="pword" name="pword" placeholder="Enter password" style="background-color: #111; border: 1px solid coral;font-size: 20px;font-style: inherit; font-weight: 800;">
+        <input type="text" id="pword" name="pword" placeholder="Enter password" style="background-color: #111; border: 1px solid coral;font-size: 20px;font-style: inherit; font-weight: 800; color:coral;">
         <br>
         <br>
         <button type="submit" style="background-color: #111; border: 1px solid coral; color: coral; font-size: 20px;font-style: inherit; font-weight: 800;">Login</button>
@@ -65,5 +65,19 @@
 
   </style>
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  <script>
+    let reviewForm = document.getElementById('reviewForm'); //Validates the form's contents
+
+reviewForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  var reviewText;
+  reviewText = document.getElementById('pword').value;
+  if (reviewText == '') {
+    alert('Password is empty! Write something in.');
+  } else {
+    reviewForm.submit();
+  }
+});
+  </script>
 </body>
 </html>

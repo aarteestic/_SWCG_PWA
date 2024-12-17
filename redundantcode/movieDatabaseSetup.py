@@ -19,7 +19,8 @@ cur.execute('''
             ('The Godfather', 1972, 9.2, 'ACTION, DRAMA', 'https://m.media-amazon.com/images/M/MV5BMTIzMDc4MzA2Ml5BMl5BanBnXkFtZTcwODU0MzA3MQ@@._V1_.jpg', 'Christopher Nolan', 3),
             ('12 Angry Men', 1957, 7.2, 'DRAMA', 'https://m.media-amazon.com/images/M/MV5BMTU4OTg2YmUtY2Y4OC00ZjI3LWE0MDItMjdiZjA0MjE1YThlXkEyXkFqcGc@._V1_.jpg', 'Sidney Lumet', 4),
             ('The Lord of the Rings: The Return of the King', 2003, 5, 'FANTASY', 'https://m.media-amazon.com/images/M/MV5BMzA2ZDNjNDMtM2MwMy00ZWVhLTljYTgtMDI4MDNmN2E5ZDM2XkEyXkFqcGc@._V1_.jpg', 'Peter Jackson', 5),
-            ("Schindler's List", 1993,  9.9, 'DRAMA, HISTORY', 'https://m.media-amazon.com/images/M/MV5BNjM1ZDQxYWUtMzQyZS00MTE1LWJmZGYtNGUyNTdlYjM3ZmVmXkEyXkFqcGc@._V1_.jpg', 'Steven Spielberg', 6)
+            ("Schindler's List", 1993,  9.9, 'DRAMA, HISTORY', 'https://m.media-amazon.com/images/M/MV5BNjM1ZDQxYWUtMzQyZS00MTE1LWJmZGYtNGUyNTdlYjM3ZmVmXkEyXkFqcGc@._V1_.jpg', 'Steven Spielberg', 6),
+            ("Pulp Fiction", 1994, 8.9, 'DRAMA', 'https://m.media-amazon.com/images/M/MV5BY2UwMTI1MDgtMDIzZC00YTJkLWE1MjMtMjE5NTI3MDU5Njg0XkEyXkFqcGc@._V1_.jpg', 'Quentin Tarantino', 7),
                     ''')
 
 con.commit()

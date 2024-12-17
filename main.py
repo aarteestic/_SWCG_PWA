@@ -98,8 +98,12 @@ def register():
         con = sqlite3.connect('SWCG.db')
         cur = con.cursor()
         print(name)
+        exists = True
         for user in movieUser:
-            if user[0] != name or user[0] == '':
+            if str(user[0]).upper() != str(name).upper() or user[0] == '':
+                exists = False
+                break
+        if exists:
                 encryptedPassword = bcrypt.generate_password_hash(password)
                 cur.execute("INSERT INTO user (name, password) VALUES(?, ?)", (name, encryptedPassword))
                 con.commit()
@@ -108,12 +112,10 @@ def register():
                 login = True
                 global sessionUsername
                 sessionUsername = name
-                break
-            else:
+        else:
                 cur.close()
                 con.close()            
                 return render_template('message.html', login=login, sessionUsername=sessionUsername, message=f"Account already with name {name} ")
-
         cur.close()
         con.close()
         return render_template('message.html', login=login, sessionUsername=sessionUsername, message=f"Account registered as {sessionUsername}!")
@@ -140,7 +142,7 @@ def login_1():
                 print(movieLogin[i][0])
                 checkName = movieLogin[i][0]
                 checkEncryptedPassword = movieLogin[i][1]
-                if checkName == name and bcrypt.check_password_hash(checkEncryptedPassword, password): #if name and password runs, then account exists
+                if checkName.upper() == name.upper() and bcrypt.check_password_hash(checkEncryptedPassword, password): #if name and password runs, then account exists
                     global sessionUsername
                     sessionUsername = checkName #gets sessionUsername
                     exists = True
