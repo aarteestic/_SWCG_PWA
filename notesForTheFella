@@ -5,9 +5,22 @@ https://stackoverflow.com/questions/62192623/how-can-i-pass-jinja-variable-to-th
 
 TO DO:
 
-+++ CSS + mobile adaptability
++++ CSS 
+
++ index
++ login // 
++ msg //
++ movies //
++ register //
++ review //
++ user //
++ users //
 
 +++ put in more movies
+
+mobile adaptability
+
+
 
 +++ update genres as needed in resetFilters() in movies.html
 

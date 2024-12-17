@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shadow Wizard Coding Gang Website</title>
+  <title>Shadow Wizard Reviews</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
   <link rel="manifest" href="/manifest.json">
@@ -21,7 +21,7 @@
 
     height:450px;
     overflow-y: scroll;
-    scrollbar-color: black white;
+    scrollbar-color: coral #111;
     scroll-snap-align: center;
     scroll-margin: 10px;
     overflow-x: hidden;
@@ -46,11 +46,10 @@
     float:left;
     height: 100px;
     padding-left: 10px;
-    border: 1px solid black;
+    text-align: center;
   }
 
   #recordImage {
-    border:1px solid black;
     height:300px;
     width: 200px;
     float:left;
@@ -61,11 +60,11 @@
     margin-left: auto;
     margin-right: auto; /*aligns the table in the middle */
 
-    border:1px solid black;
+    border:1px solid coral;
     background-color:#111;
     border-radius: 25px;
 
-    height:30%px;
+    height:300px;
     width: 80%;
     display:grid;
     grid-template-columns: 200px 50% auto;
@@ -79,7 +78,7 @@
   <nav>
     <div class="logo-container">
       <a href="/">
-        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo">
+        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo" style="height:50px;width:50px;">
       </a>
     </div>
     <button onclick="navigateTo(1)">Home</button>
@@ -91,7 +90,7 @@
     {% if login: %}
     <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
     <form action="/" class="logoutForm" method="post">
-      <button type="submit">Logout</button>
+      <button type="submit" style="height:60px;">Logout</button>
     </form>
     {% else: %}
     <button onclick="navigateTo(5)">Register</button>
@@ -106,16 +105,20 @@
 <!--https://stackoverflow.com/questions/15321431/how-to-pass-a-list-from-python-by-jinja2-to-javascript/53952147#53952147-->
 <!--a beautiful stackoverflow answer showcasing the power of jinja-->
 
-<p id="john">hi</p>
-<input type="text" id="myInput" onkeyup="search()" placeholder="Search for title.."> <!--Allows for searching of movies-->
+<input type="text" id="myInput" onkeyup="search()" placeholder="Search for title.." style="border-radius:25px;"> <!--Allows for searching of movies-->
 
 <div class="dropdown">
-  <button>Genre</button>
+  <button style="color:#111;">Genre</button>
   <div class="filters">
+    <br>
     <a><input class="filter" type="checkbox" value="COMEDY" id="COMEDY" onclick="filterGenre(this.value)">Comedy</a>
     <a><input class="filter" type="checkbox" value="ROMANCE" id="ROMANCE" onclick="filterGenre(this.value)">Romance</a>
     <a><input class="filter" type="checkbox" value="HORROR" id="HORROR" onclick="filterGenre(this.value)">Horror</a>
-    <a><input type="checkbox" value="" onclick="resetFilters()">RESET</a>
+    <br>
+    <br>
+    <button onclick="resetFilters()" style="margin-left:10px;">RESET</button>
+    <br>
+    <br>
   </div>
 </div>
 
@@ -124,16 +127,15 @@
   <div id="scrollableMovieTable">
 {% for ti in movie %} <!--add images in the next update-->
   <div id="record" class="record">  <!--https://www.w3schools.com/css/css_grid_item.asp see this website for details on 'grid system'-->
-    <div style="grid-column:1/span 1;grid-row:1/span 3" id="recordImage"><img src={{ ti[4] }} width=200px height=300px></div> <!--thumbnail image-->
-    <div style="grid-column:2/span 1;grid-row:1/span 1;width:50%;" class="recordValue">NAME: {{ ti[0] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
-    <div style="grid-column:3/span 1;grid-row:1/span 1;width:250px;"class="recordValue">RATING: {{ ti[2] }} out of 10</div>
-    <div style="grid-column:2/span 1;grid-row:3/span 1;width:50%;" class="recordValue">GENRE: {{ ti[3] }}</div> <!--genre-->
+    <div style="grid-column:1/span 1;grid-row:1/span 3" id="recordImage"><img src={{ ti[4] }} width=200px height=300px style="border-radius:25px;"></div> <!--thumbnail image-->
+    <div style="grid-column:2/span 2;grid-row:1/span 1;width:50%;text-align: center;font-size: 22px;" class="recordValue" ><a  id="title" href="/movies/{{movie.index(ti)}}">{{ ti[0] }}</a></div>  <!--proof of concept for dynamically generated movie stuff-->
+    <div style="grid-column:3/span 1;grid-row:1/span 1;width:250px;background-color: coral;"class="recordValue"><p style="color:hsl(0, 0%, 10%);">RATING:</p> {{ ti[2] }} out of 10</div>
+    <div style="grid-column:2/span 2;grid-row:3/span 1;width:50%;" class="recordValue"><p style="color:coral;">GENRE/S:</p> {{ ti[3] }}</div> <!--genre-->
   
-    <div style="grid-column:3/span 1;grid-row:2/span 1;width:50%;"class="recordValue"> <a href="/movies/{{movie.index(ti)}}">To Movie Page</a> </div> <!--ADD NICE SNAZZY LINK MAGIC-->
+    <div style="grid-column:3/span 1;grid-row:2/span 2;width:250px;height:200px;background-color:coral;"class="recordValue"> <a id="title" href="/movies/{{movie.index(ti)}}" style="color:hsl(0, 0%, 10%);">TO MOVIE</a> </div> <!--ADD NICE SNAZZY LINK MAGIC-->
     
-    <div style="grid-column:2/span 1;grid-row:2/span 1;width:50%;"class="recordValue"> DIRECTOR/S: {{ ti[5] }} </div> <!--director(s)-->
+    <div style="grid-column:2/span 2;grid-row:2/span 1;width:50%;"class="recordValue"> <p style="color:coral;">DIRECTOR/S:</p> {{ ti[5] }} </div> <!--director(s)-->
     <div style="display:none;">True</div> <!--pseudo-boolean value for searching-->
-  
   </div>
   <br>
 {% endfor %}
@@ -142,26 +144,26 @@
 
 <!--extra css/js-->
 <style>
-  a:hover {
-  color: #fff;
-  }
-
-
-  a:hover:after {
-  width: 100%;
-  left: 0;
-  }
 
 
 .dropdown {
-  padding-left: 200px;
+  margin-left: 200px;
+  margin-right: auto;
   padding-bottom: 10px;
-  width: 200px;
+  width: 70px;
+  
 }
 .dropdown button {
   border: none;
   cursor: pointer;
+  background-color: #fff;
+  border-radius: 10px;
+  font-size: 18px;
+  font-family: inherit;
+  font-weight: 800;
 }
+
+
 
 .dropdown a {
   display:block;
@@ -172,16 +174,67 @@
 .dropdown .filters{
   display: none;
   position:absolute;
-  min-width: 100px;
+  min-width: 150px;
   background-color:#111;
+  border: 1px solid coral;
 }
 
 .dropdown:hover .filters {
   display:block;
+  border-radius: 10px;
 }
 
 .dropdown:hover button {
-  background-color: aliceblue;
+  background-color: coral;
+  color:#fff;
+}
+
+.dropdown button:hover {
+  color: #fff;
+}
+
+.dropdown button:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  transition: width 400ms cubic-bezier(0.25, 0.8, 0.25, 1), left 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+#title {
+  position: relative; /* Required for pseudo-elements */
+  color: coral; /* Default color */
+  text-decoration: none; /* Removes default underline */
+  transition: color 400ms cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth color transition */
+}
+
+#title::after {
+  content: "";
+  position: absolute;
+  bottom: 0; /* Align underline to bottom */
+  left: 0;
+  width: 0; /* Start with no underline */
+  height: 2px; /* Thickness of underline */
+  background-color: #fff; /* Color of the underline */
+  transition: width 400ms cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth underline transition */
+}
+
+#title:hover {
+  color:coral; /* Change text color on hover */
+}
+
+#title:hover::after {
+  width: 100%; /* Expand underline on hover */
+}
+
+.filters a {
+  font-weight: bold;
+  color: coral;
+  padding: 0px 5px;
 }
 
 </style>
@@ -198,8 +251,6 @@
    "ROMANCE": false,
    "HORROR": false 
   }
-  var john;
-  john = document.getElementById("john");
 
   function filterGenre(genre) { //from W3Schools https://www.w3schools.com/howto/howto_js_filter_table.asp
     // Declare variables
@@ -210,7 +261,6 @@
     table = document.getElementById("scrollableMovieTable");
     tr = table.getElementsByClassName("record");
     button = document.getElementById(genre);
-    john = document.getElementById("john");
     // Loop through all table rows, and hide those who don't match the search query
     if (button.checked == true) {
       button.style.display = "none";
@@ -218,7 +268,6 @@
       for (i = 0; i < tr.length; i++) {
         filter = genre.toUpperCase();
         td = tr[i].getElementsByTagName("div")[3];
-        tr[i].getElementsByTagName("div")[6].innerText = 'hi';
         if (td) {
             txtValue = td.textContent || td.innerText;
             for (const[key, value] of Object.entries(genres)) {
@@ -229,7 +278,6 @@
                 }
               }
             }
-            john.innerText = count;
             if (othercount == count) {
               tr[i].style.display = "";
               tr[i].getElementsByTagName("div")[6].innerText = 'True';
@@ -279,9 +327,7 @@
     genres['COMEDY'] = false;
     genres['ROMANCE'] = false;
     genres['HORROR'] = false; //hard coded solution im gonna crash out 
-    john.innerText = genres['COMEDY'];
     }
-
 
   function search() { //from W3Schools https://www.w3schools.com/howto/howto_js_filter_table.asp
     // Declare variables

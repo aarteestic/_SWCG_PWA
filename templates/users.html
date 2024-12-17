@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shadow Wizard Coding Gang Website</title>
+  <title>Shadow Wizard Reviews</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
   <link rel="manifest" href="/manifest.json">
@@ -19,9 +19,10 @@
       font-family: inherit;
       font-weight: 800;
   
-      height:450px;
+      height:400px;
       overflow-y: scroll;
       overflow-x: hidden;
+      position:static;
     }
   
     #myInput {
@@ -41,42 +42,67 @@
   
     .recordValue {
       float:left;
-      height: 100px;
+      height: 75px;
       padding-left: 10px;
-      border: 1px solid black;
+      text-align: center;
+      vertical-align:middle;
+      line-height: 75px;
     }
   
-    #recordImage {
-      border:1px solid black;
-      height:200px;
-      width: 200px;
-      float:left;
-    }
   
     #record {
       
       margin-left: auto;
       margin-right: auto; /*aligns the table in the middle */
   
-      border:1px solid black;
+      border:1px solid coral;
       background-color:#111;
       border-radius: 25px;
   
-      height:300px;
-      width: 80%;
+      height:75px;
+      width: 500px;
       display:grid;
-      grid-template-columns: 200px 200px auto;
-      grid-template-rows: 100px 100px;
+      grid-template-columns: 300px 200px;
+      grid-template-rows: 75px;
     }
+    #title {
+  position: relative; /* Required for pseudo-elements */
+  color: #111; /* Default color */
+  text-decoration: none; /* Removes default underline */
+  transition: color 400ms cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth color transition */
+}
+
+#title::after {
+  content: "";
+  position: absolute;
+  bottom: 0; /* Align underline to bottom */
+  left: 0;
+  right: 0; /* Ensures the pseudo-element spans the full width */
+  margin: auto; /* Centers the pseudo-element horizontally */
+  width: 100%; /* Full width of the element */
+  height: 2px; /* Thickness of underline */
+  background-color: #fff; /* Color of underline */
+  transform: scaleX(0); /* Start with no underline */
+  transform-origin: center; /* Scale originates from the center */
+  transition: transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth scaling transition */
+}
+
+#title:hover {
+  color: #fff; /* Text color on hover */
+}
+
+#title:hover::after {
+  transform: scaleX(1); /* Expand underline from center */
+}
   </style>
 
 
-<body>
+<body style="scrollbar-color: coral #111;">
   <div class="background-layer"></div>
   <nav>
     <div class="logo-container">
       <a href="/"> <!--calls the index page or 'default' URL-->
-        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo">
+        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo" style="height:50px;width:50px;">
       </a>
     </div>
     <button onclick="navigateTo(1)">Home</button>
@@ -88,7 +114,7 @@
     {% if login: %}
     <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
     <form action="/" class="logoutForm" method="post">
-      <button type="submit">Logout</button>
+      <button type="submit" style="height:60px;">Logout</button>
     </form>
     {% else: %}
     <button onclick="navigateTo(5)">Register</button>
@@ -100,19 +126,21 @@
     <h2 class="carousel-title"><b>Users</b></h2>
   </div>
 
-  <input type="text" id="myInput" onkeyup="search()" placeholder="Search for user..">
+  <input type="text" id="myInput" onkeyup="search()" placeholder="Search for user.." style="border-radius: 25px;">
 
+  <br>
+  <br>
+  <br>
 
   <div id="scrollableMovieTable">
     {% for user in movieUsername %} <!--add images in the next update-->
       <div id="record" class="record">  <!--https://www.w3schools.com/css/css_grid_item.asp see this website for details on 'grid system'-->
-        <div style="grid-column:1/span 1;grid-row:1/span 1" class="recordValue">{{ user[0] }}</div>
-        <div style="grid-column:2/span 1;grid-row:1/span 1" class="recordValue"><a href="/users/{{ user[0] }}">To User Page</a></div>
+        <div style="grid-column:1/span 1;grid-row:1/span 1;" class="recordValue">{{ user[0] }}</div>
+        <div style="grid-column:2/span 1;grid-row:1/span 1;background-color: coral;border-radius: 25px;" class="recordValue"><a id="title" href="/users/{{ user[0] }}">To User Page</a></div>
     </div>
       <br>
     {% endfor %}
     </div>
-  
 
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   <script> // Carousel code placed within the index HTML

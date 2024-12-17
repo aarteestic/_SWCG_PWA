@@ -4,17 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shadow Wizard Coding Gang Website</title>
+  <title>Shadow Wizard Reviews</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
   <link rel="manifest" href="/manifest.json">
 </head>
-<body>
+<body style="overflow-y: scroll;">
   <div class="background-layer"></div>
   <nav>
     <div class="logo-container">
       <a href="/"> <!--calls the index page or 'default' URL-->
-        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo">
+        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo" style="height:50px;width:50px;">
       </a>
     </div>
     <button onclick="navigateTo(1)">Home</button>
@@ -26,23 +26,30 @@
     {% if login: %}
     <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
     <form action="/" class="logoutForm" method="post">
-      <button type="submit">Logout</button>
+      <button type="submit" style="height:60px;">Logout</button>
     </form>
     {% else: %}
     <button onclick="navigateTo(5)">Register</button>
     <button onclick="navigateTo(6)">Login</button>
     {% endif %}
   </nav>
-  <img src="{{url_for('static', filename='ASSETS/NAV_IMG.png')}}" class="logo">
-  <p>{{name}}</p>
 
+  <br><br>
+
+  <div style="height:40px; width: 40%; margin-left: auto;margin-right: auto;text-align: center; vertical-align: middle;  background-color: coral;border-radius: 25px;border: 2px solid black;"> 
+    <p>{{name}}</p>
+  </div>
+<br><br><br>
+<div style="margin-left: 10%;margin-right: 5%;width:78%;">
+<input type="text" id="myInput" onkeyup="search()" placeholder="Search for review.." style="border-radius:25px;width:94.25%;">
+</div>
 <div id="scrollableReviewTable">
   {% for review in userReview %}
-  <div id="review">
-    <div style="grid-column:1/span 1; grid-row:1/span 3"><img src={{ movie[review[1] - 1][4] }} width="200px" height="300px"></div>
-    <div style="grid-column:2/span 3; grid-row: 1/span 1;"> MOVIE: {{movie[review[1] - 1][0]}} </div>
-    <div style="grid-column:2/span 3; grid-row: 3/ span 1;"> REVIEW: {{review[0]}} </div>
-    <div style="grid-column:2/span 1;grid-row: 2/span 1;"> RATING: {{review[3]}} </div>
+  <div class="review">
+    <div style="grid-column:1/span 1; grid-row:1/span 3"><img src={{ movie[review[1] - 1][4] }} height="300px" style="border-radius:25px;width:200px;"></div>
+    <div style="grid-column:2/span 3; grid-row: 1/span 1;" id="recordValue" ><p id="orange">{{movie[review[1] - 1][0]}}</p></div>
+    <div style="grid-column:2/span 3; grid-row: 3/ span 1;max-width:500px; overflow-wrap: break-word;height: fit-content;" id="recordValue"> {{review[0]}}<br> </div> <!--review-->
+    <div style="grid-column:2/span 1;grid-row: 2/span 1;" id="recordValue"> <p id="orange">RATING:</p> {{review[3]}} out of 10<br><br> <p id="orange">REVIEW:</p> </div>
     {% if login and sessionUsername == name: %}
     <div>
         <form action="{{ websiteURL }}" class="deleteForm" method="post">
@@ -59,9 +66,32 @@
   <br>
   {% endfor %}
 </div>
-  
+<br><br><br>
 
   <style>
+
+#myInput {
+
+
+font-size: 10px; /* Increase font-size */
+padding: 12px 20px 12px 40px; /* Add some padding */
+border: 1px solid #ddd; /* Add a grey border */
+margin-bottom: 12px; /* Add some space below the input */
+
+}
+
+#orange {
+  font-weight: 800; 
+  color:coral;
+  font-family: inherit;
+}
+
+#recordValue {
+    float:left;
+    height: 100px;
+    padding-left: 10px;
+    text-align: center;
+  }
     .logo {
       display: block;
       margin-left: auto;
@@ -77,22 +107,23 @@
     font-family: inherit;
     font-weight: 800;
 
-    height:450px;
+    height:400px;
     overflow-y: scroll;
     scrollbar-color: black white;
     scroll-snap-align: center;
     scroll-margin: 10px;
     overflow-x: hidden;
+    width:80%;
   }
-  #review {
+  .review {
     margin-left: auto;
     margin-right: auto; /*aligns the table in the middle */
 
-    border:1px solid black;
+    border:1px solid coral;
     background-color:#111;
     border-radius: 25px;
 
-    height:30%px;
+    height:300px;
     width: 80%;
     display:grid;
     grid-template-columns: 200px 50% auto;
@@ -100,5 +131,29 @@
   }
   </style>
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  <script>
+      function search() { //from W3Schools https://www.w3schools.com/howto/howto_js_filter_table.asp
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("scrollableReviewTable");
+    tr = table.getElementsByClassName("review");
+    console.log(tr.length)
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("div")[2];
+      if (td) {
+        console.log('ay')
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  </script>
 </body>
 </html>

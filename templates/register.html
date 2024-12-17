@@ -4,17 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shadow Wizard Coding Gang Website</title>
+  <title>Shadow Wizard Reviews</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
   <link rel="manifest" href="/manifest.json">
 </head>
-<body>
+<body style="overflow-y: scroll;">
   <div class="background-layer"></div>
   <nav>
     <div class="logo-container">
       <a href="/"> <!--calls the index page or 'default' URL-->
-        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo">
+        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo" style="height:50px;width:50px;">
       </a>
     </div>
     <button onclick="navigateTo(1)">Home</button>
@@ -27,16 +27,25 @@
     <button onclick="navigateTo(6)">Login</button>
   </nav>
   
+  <div style="text-align: center;">
+    <img src="{{url_for('static', filename='ASSETS/NAV_IMG.png')}}" width="300px" height="300px">
+  </div>
+  <div style="margin-left: auto; margin-right: auto; background-color: #111; border-radius: 10px; width: fit-content; border: 1px solid coral;">
+    <p style="font-style: inherit; font-weight: 800;color:coral;font-size: 40px;">REGISTER</p>
+  </div>
 
-  <img src="{{url_for('static', filename='ASSETS/NAV_IMG.png')}}" class="logo">
-
-    <form action="{{ url_for("register")}}" method="post">
-        <label for="firstname">First Name:</label>
-        <input type="text" id="name" name="name" placeholder="name">
-        <label for="lastname">Password:</label>
-        <input type="text" id="pword" name="pword" placeholder="pword">
-        <button type="submit">Login</button>
-
+  <br>
+    <form action="{{ url_for("register")}}" method="post" style="text-align: center;">
+        <input type="text" id="name" name="name" placeholder="Enter name" style="background-color: #111; border: 1px solid coral;font-size: 20px;font-style: inherit; font-weight: 800;">
+        <br>
+        <br>
+        <br>
+        <br>
+        <input type="text" id="pword" name="pword" placeholder="Enter password" style="background-color: #111; border: 1px solid coral;font-size: 20px;font-style: inherit; font-weight: 800;">
+        <br>
+        <br>
+        <button type="submit" style="background-color: #111; border: 1px solid coral; color: coral; font-size: 20px;font-style: inherit; font-weight: 800;">Login</button>
+    </form>
 
   <style>
     .formLogin {

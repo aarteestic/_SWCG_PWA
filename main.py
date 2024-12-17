@@ -81,7 +81,7 @@ def movies():
     if login:
         print(login)
         print(f'User {sessionUsername} is in the movies page!')
-    return render_template("movies.html", movie=movieRecord, movieID=movieID, login=login, sessionUsername=sessionUsername)
+    return render_template("movies.html", movie=movieRecord, movieID=movieID, movieReview=movieReview, login=login, sessionUsername=sessionUsername)
 
 @app.route("/users")
 def users():
@@ -203,7 +203,7 @@ def movie(movieNumber): #movieNumber not to be confused with movieID, which is f
     cur.close()
     con.close()
     
-    if request.method == "POST": #for logging into an account, once form is sent
+    if request.method == "POST": #for submitting review
         if login:
             reviewText = request.form.get('reviewText')
             rating = request.form.get('rating')
@@ -245,6 +245,8 @@ def movie(movieNumber): #movieNumber not to be confused with movieID, which is f
                 cur.close()
                 con.close()
                 return redirect(websiteURL)
+        else:
+            return render_template('message.html', message="Please login to write a review.")
         
     
     for i in range(0, len(movieID)): #stops indexing at j-1 because python is dumb!!!

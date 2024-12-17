@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shadow Wizard Coding Gang Website</title>
+  <title>Shadow Wizard Reviews</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="icon" href="{{ url_for('static', filename='ASSETS/WBESITE_ICON.ico') }}">
   <link rel="manifest" href="/manifest.json">
 </head>
-<body>
+<body style="overflow-y: scroll;">
   <div class="background-layer"></div>
   <nav>
     <div class="logo-container">
       <a href="/"> <!--calls the index page or 'default' URL-->
-        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo">
+        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo" style="height:50px;width:50px;">
       </a>
     </div>
     <button onclick="navigateTo(1)">Home</button>
@@ -24,8 +24,7 @@
     <button class="invisible" disabled></button>
     {% if login: %}
     <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
-    <form action="/" class="logoutForm" method="post">
-      <button type="submit">Logout</button>
+    <button type="submit" style="height:60px;">Logout</button>
     </form>
     {% else: %}
     <button onclick="navigateTo(5)">Register</button>
@@ -33,14 +32,86 @@
     {% endif %}
   </nav>
 
-  <div class="carousel-container">
-    <button class="carousel-btn left" onclick="scrollCarousel('left')">←</button>
-    <div class="carousel"></div>
-    <button class="carousel-btn right" onclick="scrollCarousel('right')">→</button>
+  <br>
+  <br>
+  <div style="margin-left: auto; margin-right: auto; background-color: #111; border-radius: 10px; width: fit-content; border: 1px solid coral;">
+    <p style="font-style: inherit; font-weight: 800;color:coral;font-size: 40px;">SHADOW WIZARD REVIEWS</p>
   </div>
 
+<br>
+<br>
+  <div style="text-align: center; background-color: #111; border: 1px solid coral;width: 400px;margin-left: auto;margin-right: auto;border-radius: 190px;">
+    <img src="{{url_for('static', filename='ASSETS/NAV_IMG.png')}}" width="300px" height="300px">
+  </div>
+
+  <br>
+  <br>
+
+  <div style="margin-left: auto; margin-right: auto; background-color: #111; border-radius: 10px; width: fit-content; border: 1px solid coral;">
+    <p style="font-style: inherit; font-weight: 800;color:coral;font-size: 40px;">Discover greatness</p>
+    <p style="font-style: inherit; font-weight: 800;color:#fff;font-size: 12px;">With movies from across the world paired with cultured reviews from our users you can discover your next favourite movie!<br><br></p>
+    
+  </div>
+
+  <br>
+  <br>
+
+  <div style="margin-left: auto; margin-right: auto; background-color: #111; border-radius: 10px; width: fit-content; border: 1px solid coral;">
+    <p style="font-style: inherit; font-weight: 800;color:coral;font-size: 40px;">Find your favourite movies</p>
+    <p style="font-style: inherit; font-weight: 800;color:#fff;font-size: 12px;">Filled to the brim with movies across the world, explore top-rated movies in Shadow Wizard Reviews<br><br></p>
+    <br><br>
+    <p style="font-style: inherit; font-weight: 800;color:#fff;font-size: 20px;"><a href="/movies" class="thing">EXPLORE MOVIES</a></p>
+    <br><br>
+  </div>
+  <br>
+  <br>
+
+  <div style="margin-left: auto; margin-right: auto; background-color: #111; border-radius: 10px; width: fit-content; border: 1px solid coral;">
+    <p style="font-style: inherit; font-weight: 800;color:coral;font-size: 40px;">Make an Account</p>
+    <p style="font-style: inherit; font-weight: 800;color:#fff;font-size: 12px;">With an account, gain access to write reviews from movies to share your <br> own opinions, as well as  the ability to access all of your own reviews in one place! <br><br></p>
+    <br><br>
+    <p style="font-style: inherit; font-weight: 800;color:#fff;font-size: 20px;"><a href="/register" class="thing">REGISTER</a></p>
+    <br><br>
+  </div>
+
+  <br>
+  <br>
 
 
+
+<br>
+<br>
+<br>  <br>
+<br>
+<style>
+     .thing {
+  position: relative; /* Required for pseudo-elements */
+  color: coral; /* Default color */
+  text-decoration: none; /* Removes default underline */
+  transition: color 400ms cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth color transition */
+  border: 1px solid coral;
+  border-radius: 10px;
+}
+
+.thing::after {
+  content: "";
+  position: absolute;
+  bottom: 0; /* Align underline to bottom */
+  left: 0;
+  right: 0; /* Ensures the pseudo-element spans the full width */
+  margin: auto; /* Centers the pseudo-element horizontally */
+  width: 100%; /* Full width of the element */
+  height: 2px; /* Thickness of underline */
+  background-color: #fff; /* Color of underline */
+  transform: scaleX(0); /* Start with no underline */
+  transform-origin: center; /* Scale originates from the center */
+  transition: transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth scaling transition */
+}
+
+.thing:hover {
+  color: #fff; /* Text color on hover */
+}
+</style>
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   <script> // Carousel code placed within the index HTML
     function sendUserToTheirPage() {

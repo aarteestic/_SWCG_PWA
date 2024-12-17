@@ -138,14 +138,18 @@ nav {
   position: sticky;
   top: 0;
   z-index: 10;
+  height:auto;
   width:100%;
 }
+
+
 
 .logo-container {
   display: inline-block;
   background-color: #222;
   padding: 3px;
   transition: background-color 0.3s ease, padding 0.3s ease;
+  border-radius: 10px;
 }
 
 .logo-container:hover {
@@ -161,17 +165,17 @@ nav {
 nav button.invisible {
   visibility: hidden;
   pointer-events: none;
-  width: 15vh;
+  width: 10%;
 }
 
 nav button {
-  font-size: 18px;
+  font-size: 110%;
   color: #e1e1e1;
   font-family: inherit;
   font-weight: 800;
   cursor: pointer;
+  border: 0;
   position: relative;
-  border: none;
   background: none;
   text-transform: uppercase;
   margin: 0 15px;

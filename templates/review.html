@@ -22,7 +22,7 @@
 
     height:450px;
     overflow-y: scroll;
-    scrollbar-color: black white;
+    scrollbar-color: coral #111;
     scroll-snap-align: center;
     scroll-margin: 10px;
     overflow-x: hidden;
@@ -47,22 +47,16 @@
     float:left;
     height: 100px;
     padding-left: 10px;
-    border: 1px solid black;
+    text-align: center;
   }
 
-  #recordImage {
-    border:1px solid black;
-    height:300px;
-    width: 200px;
-    float:left;
-  }
 
   #record {
     
     margin-left: auto;
     margin-right: auto; /*aligns the table in the middle */
 
-    border:1px solid black;
+    border:1px solid coral;
     background-color:#111;
     border-radius: 25px;
 
@@ -70,17 +64,17 @@
     width: 80%;
     display:grid;
     grid-template-columns: 200px 50% auto;
-    grid-template-rows: 100px 100px 100px;
+    grid-template-rows: 100px auto auto;
   }
 </style>
 
 
-<body>
+<body style="overflow-y: scroll">
   <div class="background-layer"></div>
   <nav>
     <div class="logo-container">
       <a href="/"> <!--calls the index page or 'default' URL-->
-        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo">
+        <img src="{{ url_for('static', filename='ASSETS/NAV_IMG.png') }}" alt="Logo" class="navbar-logo" style="height:50px;width:50px;">
       </a>
     </div>
     <button onclick="navigateTo(1)">Home</button>
@@ -92,7 +86,7 @@
     {% if login: %}
     <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
     <form action="/" class="logoutForm" method="post">
-      <button type="submit">Logout</button>
+      <button type="submit" style="height:60px;">Logout</button>
     </form>
     {% else: %}
     <button onclick="navigateTo(5)">Register</button>
@@ -100,42 +94,64 @@
     {% endif %}
   </nav>
 
-  <p>what's the hooists, {{movieID}}</p> <!--Short sample code, just have placeholder text here and I will handle variables-->
-  <p>This is a dummy review page for {{ movie[movieNumber][0] }} </p>
-
-  <div class="grid-container" style="display:grid;grid-template-columns: 200px 50% auto;grid-template-rows: 100px 100px 100px;">
-    <div style="grid-column: 2/span 2;grid-row:1/span 1"> DESC: {{ movie[movieNumber][7] }}</div>
+<br><br>
+  <div class="grid-container" style="display:grid;grid-template-columns: 200px 50% auto;grid-template-rows: 100px 100px 100px;background-color: #111;border: 1px solid coral;">
 
     <div style="grid-column:1/span 1;grid-row:1/span 3"> <img src={{ movie[movieNumber][4] }} width=200px height=300px></div>
-    <div style="grid-column: 2/span 1;grid-row:2/span 1"> TITLE: {{ movie[movieNumber][0] }}</div>
-    <div style="grid-column: 2/span 1;grid-row:3/span 1"> YEAR: {{ movie[movieNumber][1] }}</div>
-    <div style="grid-column: 3/span 1;grid-row:2/span 1"> RATING: {{ movie[movieNumber][2] }}</div>
-    <div style="grid-column: 3/span 1;grid-row:3/span 1"> DIRECTOR/S: {{ movie[movieNumber][2] }}</div>
+    <div style="grid-column: 2/span 1;grid-row:1/span 1" class="data"> <p class="orange" style="font-size: 22px;">{{ movie[movieNumber][0] }}</p></div>
+    <div style="grid-column: 3/span 1;grid-row:1/span 1" class="data"> <p class="orange">YEAR:</p> {{ movie[movieNumber][1] }}</div>
+    <div style="grid-column: 3/span 1;grid-row:2/span 1" class="data"> <p class="orange">RATING:</p> {{ movie[movieNumber][2] }} out of 10</div>
+    <div style="grid-column: 3/span 1;grid-row:3/span 1" class="data"> <p class="orange">DIRECTOR/S:</p> {{ movie[movieNumber][2] }}</div>
+    <div style="grid-column: 2/span 1;grid-row:2/span 1" class="data"> <p class="orange">GENRE/S:</p> {{ movie[movieNumber][3] }}</div>
   </div>
+  <br><br><br><br>
 
+  <style>
+    .data {
+      font-size: 18px;
+      color: #e1e1e1;
+      font-family: inherit;
+      font-weight: 800;
+      text-align: center;
+    }
+    .orange {
+      color: coral;
+    }
+
+  </style>
+
+<p class="data" style="color:coral;background-color: #111;width:500px;margin-left: auto;margin-right: auto;border-radius: 25px; border: 1px solid coral;font-size: 40px;">Submit a review!</p>
+<div style="margin-left:auto;margin-right: auto;">
   <form id="reviewForm" action="{{ websiteURL }}" method="post" onsubmit="prepareForm()">
-    <label for="reviewText">Review:</label>
-    <textarea id="reviewText" name="reviewText" style="width:80%;height:200px;resize:none;"></textarea>
     <br>
-    <label for="rating">Rating out of 10:</label>
-    <select name="rating" id="rating">
+    <div style="text-align: center;">
+    <label for="rating" class="data" style="color:coral;">Rating out of 10: </label>
+    <select name="rating" id="rating" style="background-color: #111;color:coral;border: 1px solid coral;font-size: 15px; font-style: inherit; font-weight: 800;">
       {% for i in range(1, 11)%}
       <option value={{ i }}>{{ i }}</option>
       {% endfor %}
     </select>
-    <button type="submit">Submit</button>
-
+    <br>
+    <br>
+    <textarea id="reviewText" name="reviewText" style="width:90%;height:200px;resize:none;background-color: #111;border: 1px solid coral; font-style: inherit; font-weight: 800; " placeholder="Enter review here."></textarea>
+    <br>
+    <button type="submit" style="background-color: #111;color: coral;border: 1px solid coral; border-radius: 10px;font-size: 20px;font-family: inherit;font-weight: 800;">Submit</button>
+    </div>
+  </form>
+</div>
 
 <br>
-
-  <button onclick="refresh()">Hello</button>
+<p class="data" style="color:coral;background-color: #111;width:300px;margin-left: auto;margin-right: auto;border-radius: 25px; border: 1px solid coral; font-size: 40px;">Reviews</p>
+<br>
+<div style="overflow-wrap: break-word; height:fit-content;max-width: 50%;"></div>
   <div id="scrollableMovieTable">
     {% for review in movieReview %} <!--add images in the next update-->
       <div id="record" class="record">  <!--https://www.w3schools.com/css/css_grid_item.asp see this website for details on 'grid system'-->
-        <div style="grid-column:2/span 1;grid-row:1/span 1;width:50%;" class="recordValue">NAME: {{ review[2] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
-        <div style="grid-column:3/span 1;grid-row:1/span 1;width:250px;"class="recordValue">RATING: {{ review[1] }} out of 10</div>
-        <div style="grid-column:2/span 1;grid-row:3/span 1;width:50%;" maxlength="50" class="recordValue">REVIEW: {{ review[0] }}</div> <!--genre-->
+        <div style="grid-column:2/span 1;grid-row:1/span 1;width:50%;" class="recordValue"><p class="data" style="color:coral;">NAME:</p> {{ review[2] }}</div>  <!--proof of concept for dynamically generated movie stuff-->
+        <div style="grid-column:3/span 1;grid-row:1/span 1;width:250px;"class="recordValue"><p class="data" style="color:coral;">RATING:</p> {{ review[1] }} out of 10</div>
+        <div style="grid-column:1/span 3;grid-row:2/span 2;max-width:600px; overflow-wrap: break-word;height: fit-content;" class="recordValue"><p class="data" style="color:coral;text-align: left;">REVIEW:</p>{{ review[0] }}</div> <!--genre-->
       </div>
+      <br>
       <br>
     {% endfor %}
       </div>
