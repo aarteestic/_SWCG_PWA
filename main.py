@@ -98,12 +98,12 @@ def register():
         con = sqlite3.connect('SWCG.db')
         cur = con.cursor()
         print(name)
-        exists = True
+        valid = True
         for user in movieUser:
-            if str(user[0]).upper() != str(name).upper() or user[0] == '':
-                exists = False
+            if str(user[0]).upper() == str(name).upper() or name=='':
+                valid = False
                 break
-        if exists:
+        if valid:
                 encryptedPassword = bcrypt.generate_password_hash(password)
                 cur.execute("INSERT INTO user (name, password) VALUES(?, ?)", (name, encryptedPassword))
                 con.commit()
@@ -115,7 +115,7 @@ def register():
         else:
                 cur.close()
                 con.close()            
-                return render_template('message.html', login=login, sessionUsername=sessionUsername, message=f"Account already with name {name} ")
+                return render_template('message.html', login=login, sessionUsername=sessionUsername, message=f"Account already with name {name} or invalid name ")
         cur.close()
         con.close()
         return render_template('message.html', login=login, sessionUsername=sessionUsername, message=f"Account registered as {sessionUsername}!")
