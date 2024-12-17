@@ -18,8 +18,9 @@
     </div>
     <button onclick="navigateTo(1)">Home</button>
     <button onclick="navigateTo(2)">Movies</button>
-    <button onclick="navigateTo(3)">Games</button>
-    <button onclick="navigateTo(4)">Battleground</button>
+    <button onclick="navigateTo(3)">Users</button>
+    <button class="invisible" disabled></button>
+    <button class="invisible" disabled></button>
     {% if login: %}
     <button onclick="sendUserToTheirPage()">{{ sessionUsername }}</button>
     <form action="/" class="logoutForm" method="post">
