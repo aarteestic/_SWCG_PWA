@@ -1,4 +1,4 @@
-#Shadow Wizard Reviews
+# Shadow Wizard Reviews
 This progressive web app (PWA) is the HSC Task 1 project for the group Shadow Wizard Coding Gang.
 
 ## Note:
